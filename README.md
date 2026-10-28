@@ -27,10 +27,16 @@ data/
   processed/    cleaned / joined data, SQLite database (git-ignored)
 docs/
   project-state.md     shared project state: roles, decisions, open questions, timeline
+  grading.md           all grading criteria (presentation, final project, submission)
+  research-design.md   research question, variables, hypotheses, tests, limitations
+  workplan.md          roles, phases, dates, how we work
+  concept-presentation.md  slide plan for 17.11.
+  onboarding.md        checklist for new team members
   ai-log.md            log of AI usage (required for grading)
   integration-log.md   keys, joins, inconsistencies, records lost/gained (required for grading)
   claude/              how to use Claude in this project, prompts
 notebooks/      Jupyter notebooks, one owner per notebook
+tools/          create_issues.py: creates labels, milestones and issues on GitHub
 src/            reusable Python code
   paths.py      project paths
   db.py         database access, SQLite or PostgreSQL (query, write_table, list_tables)
@@ -41,6 +47,8 @@ CLAUDE.md       rules for Claude (grading criteria, guardrails, repo rules)
 ```
 
 ## Setup
+
+New in the team? Start with **[docs/onboarding.md](docs/onboarding.md)**.
 
 Requires Python 3.10 or newer.
 

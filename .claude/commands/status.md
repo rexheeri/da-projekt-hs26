@@ -4,10 +4,12 @@ description: Projektstand gegen Zeitplan und Bewertungsraster, nächste Schritte
 
 Erstelle einen kurzen Statusbericht zum DA-Gruppenprojekt.
 
-1. Lies `docs/project-state.md` und `CLAUDE.md` Abschnitt 3.
+1. Lies `docs/project-state.md` und `docs/grading.md`.
 2. Prüfe mit `git log --oneline -20` und einem Blick in `src/`, `notebooks/` und
    `docs/`, was seit der letzten Aktualisierung von `project-state.md`
-   tatsächlich passiert ist.
+   tatsächlich passiert ist. Ist die GitHub CLI installiert, zeig mit
+   `gh issue list --state open --limit 50` die offenen Issues des aktuellen
+   Milestones. Der Soll-Zeitplan steht in `docs/workplan.md`.
 3. Hol mit dem MCP-Tool für Datum und Zeit (falls vorhanden) oder mit `date`
    das heutige Datum und rechne die Tage bis zum 17.11.2026 und bis zum
    10.01.2027.

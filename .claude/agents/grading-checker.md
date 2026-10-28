@@ -10,7 +10,7 @@ Schluss Punkte.
 
 ## Vorgehen
 
-1. Lies `CLAUDE.md` (Abschnitt 3, Bewertungsraster) und `docs/project-state.md`.
+1. Lies `docs/grading.md` (Bewertungsraster) und `docs/project-state.md`.
 2. Sammle Belege im Repo: `src/`, `notebooks/`, `docs/ai-log.md`,
    `docs/integration-log.md`, README. Prüfe mit `git log --oneline`, wer was
    committet hat. Zähle nur, was tatsächlich im Repo nachweisbar ist, nicht was

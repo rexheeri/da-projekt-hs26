@@ -57,18 +57,21 @@ Bonus points: aim for all six.
 ## Timeline
 
 Fixed: **17.11.2026** concept presentation · **10.01.2027, 23:59** submission.
-Everything else is a planned value.
+Everything else is a planned value. Full plan: `docs/workplan.md`, tasks: GitHub issues (M1/M2).
 
 | By | What | Done |
 |---|---|---|
-| 06.11. | Pipeline: first real data in the database, join tested | ☐ |
+| 30.10. | Roles assigned, onboarding done | ☐ |
+| 04.11. | Data prototypes (1 day each), study period, variable definitions | ☐ |
+| 06.11. | Prototype data in the database, join tested | ☐ |
 | 08.11. | First EDA | ☐ |
-| 15.11. | Slides done, dry run with stopwatch | ☐ |
+| 12.11. | Slides draft | ☐ |
+| 15.11. | Dry run with stopwatch | ☐ |
 | 17.11. | **Concept presentation**, upload PDF to Moodle afterwards | ☐ |
-| 13.12. | Model, tests, map | ☐ |
-| 14.–27.12. | Buffer (other module deadlines, holidays) | – |
-| 28.12.–08.01. | Report PDF, self-assessment appendix, video | ☐ |
-| 10.01. | **Submission** with buffer | ☐ |
+| 13.12. | Full pipeline on PostgreSQL, tests, models, map, k-means | ☐ |
+| 14.–27.12. | Buffer | – |
+| 08.01. | Report PDF, appendix, video, zip | ☐ |
+| 10.01. | **Submission** | ☐ |
 
 ## Questions for the lecturer
 
@@ -77,7 +80,9 @@ Everything else is a planned value.
 | Does downloading the Ist-Daten daily files by script count as own data collection? | **Yes**, it's an API. |
 | Does PostgreSQL replace the SQLite requirement? | **Yes**, PostgreSQL replaces SQLite (and earns the bonus point). |
 | Max. 16 or 22 points? Conversion to grade? | **22 points** (9 + 6 + 7). Grade conversion after all projects are assessed, i.e. relative. |
-| Where did we see "16 points"? | He asks us to tell him. **Open, ER replies.** |
+| Where did we see "16 points"? | He asks us to tell him. **Open, ER replies** (issue). |
+
+Still missing: the rest of the Moodle page "Evaluation of the project concept presentation" below the grading scale.
 
 ## Decisions
 
@@ -93,3 +98,4 @@ Everything else is a planned value.
 
 - 2026-10-28 ER: repo, Claude configuration and team rules created
 - 2026-10-28 ER: lecturer's answers added; database layer switched to SQLAlchemy (SQLite/PostgreSQL), docker-compose added
+- 2026-10-28 ER: grading.md (full presentation criteria + scale), research-design.md (hypotheses), workplan.md, concept-presentation.md, onboarding.md, issue script added

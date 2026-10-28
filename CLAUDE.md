@@ -36,70 +36,28 @@ die eigene Person.
   **Englisch** (Abgabesprache).
 - Fachbegriffe bleiben englisch (p-value, recall, join, confusion matrix).
 
-## 3. Auftrag und Bewertung (Quelle: Moodle-Kursseite, Stand 06.10.2026)
+## 3. Auftrag und Bewertung
 
-| Teil | Gewicht | Termin |
-|---|---|---|
-| Schriftliche Prüfung (einzeln, open book) | 60 % | offen |
-| Konzeptpräsentation (Gruppe, 10 Min., vor Ort, Präsenzpflicht) | 20 % | Di 17.11.2026, 11:00–12:45, SW301 |
-| Schlussprojekt (Gruppe) | 20 % | 10.01.2027, 23:59 |
+Das vollständige Bewertungsraster (Konzeptpräsentation mit allen 8 Kriterien,
+Unterfragen und Notenskala; Schlussprojekt mit 22 Punkten; Abgabe) steht in
+`docs/grading.md` und wird hier eingebunden:
 
-### Konzeptpräsentation — 8 Kriterien, je Note 1–6, Durchschnitt
-1. Struktur
-2. Background & Problemstellung
-3. Ziel & Forschungsfrage
-4. Daten (Quelle **und Struktur erklärt**)
-5. Methoden (passend und begründet)
-6. Erwartete Resultate
-7. Frei gesprochen
-8. Folienqualität
+@docs/grading.md
 
-Inhalt ist das Konzept, nicht das fertige Projekt. Aber Kriterium 4 lässt sich
-nur gut erfüllen, wenn bis dahin **echte Daten** geladen sind.
-
-### Schlussprojekt — max. 22 Punkte
-**Mindestanforderungen (9 P)**
-- Eigene Datenerhebung per Web Scraping oder Web API (kein Kaggle als
-  Hauptquelle). Gellrich hat bestätigt: Die Ist-Daten **per Skript über die
-  API** herunterzuladen zählt. Ein manueller Download zählt also nicht, es muss
-  ein Skript in `src/` sein.
-- ≥ 2 Quellen integriert; Integration dokumentiert: Keys, Joins,
-  Inkonsistenzen, Records verloren/gewonnen → `docs/integration-log.md`
-- Datenbank, Abfragen mit SQL aus Python → `src/db.py`. Gellrich hat
-  bestätigt: **PostgreSQL ersetzt SQLite** und gibt zusätzlich den Zusatzpunkt.
-- EDA tabellarisch **und** grafisch
-- Regression oder Klassifikation mit einer Forschungsfrage, die über eine
-  Standardprognose hinausgeht (Vergleich von Gruppen, Regionen, Zeiträumen
-  oder Quellen)
-- Measures of fit und korrekte Interpretation
-- KI-Nutzung dokumentiert (Vor- und Nachteile, wo es scheiterte) → `docs/ai-log.md`
-- Material auf Moodle
-
-**Zusatzpunkte (max. 6 P):** Kreativität · PostgreSQL o. ä. statt SQLite ·
-Geodaten · Chi², ANOVA oder Korrelation mit p-Wert · zusätzlich k-means ·
-öffentliches GitHub-Repo (URL in den Folien)
-
-**Video (max. 7 P):** Länge = Anzahl Personen × 5 Min. (3 Personen → 15 Min.).
-Bewertet: Struktur, Thema, Inhalt, frei gesprochen, Folien, KI-Reflexion,
-Zeiteinhaltung. **Nicht durch Notebooks scrollen.**
-
-**Abgabe (eine Person für die Gruppe):**
-- `video_recording_group_XX.mp4` (ggf. in Teilen)
-- `materials_group_XX.zip` (Code, Notebooks, Daten bzw. Skripte zum Erzeugen)
-- `presentation_group_XX.pdf`: Titel/Namen, Introduction, Materials & Methods,
-  Results & Discussion, Conclusions, KI-Reflexion, **Anhang mit
-  Punkte-Selbsteinschätzung inkl. Screenshots/Code**
-
-**Es gelten max. 22 Punkte** (Gellrich bestätigt). Die Umrechnung in eine Note
-macht er erst nach der Bewertung aller Projekte, also relativ zu den anderen
-Gruppen. Daraus folgt: Jeder Punkt zählt, nichts liegen lassen.
-Abgabeslot auf Moodle widersprüchlich («11 January 2026» vs. Titel
-«10.01.2027»). Geplant wird mit dem 10.01.2027.
+Weitere Planungsdokumente (bei Bedarf lesen, nicht abschreiben):
+- `docs/research-design.md`: Forschungsfrage, Variablen, Hypothesen H1–H3 mit
+  Tests, erwartete Resultate, Limitationen, offene DECIDE-Punkte
+- `docs/workplan.md`: Rollen A/B/C, Phasen, Termine, Arbeitsweise
+- `docs/concept-presentation.md`: Folienplan, Timing, Sprecher, Checkliste
+- `docs/onboarding.md`: Checkliste für neue Gruppenmitglieder
+- GitHub-Issues (Milestones M1/M2) sind die Aufgabenliste. Bei Fragen «was
+  muss ich tun?» auf das passende Issue verweisen.
 
 ## 4. Methodische Leitplanken
 
 Die Forschungsfrage ist eine **Vergleichsfrage**: Ist der Wettereffekt auf
-Verspätungen im Regionalverkehr *stärker* als im Fernverkehr? Daraus folgt:
+Verspätungen im Regionalverkehr *stärker* als im Fernverkehr? Details und
+Hypothesen in `docs/research-design.md`. Daraus folgt:
 
 - Die Kernantwort ist ein **Effektvergleich**: Verspätungsquote bei
   Niederschlag minus Quote bei trockenem Wetter, getrennt je Verkehrsart, dazu
@@ -172,7 +130,7 @@ die Folgen für die Bewertung.
 
 | Befehl | Zweck |
 |---|---|
-| `/status` | Stand gegen Zeitplan und Bewertungsraster, nächste Schritte |
+| `/status` | Stand gegen Zeitplan, Issues und Bewertungsraster, nächste Schritte |
 | `/check-grading` | Vollständige Punkte-Selbsteinschätzung (Agent `grading-checker`) |
 | `/new-notebook <nn> <topic> <initials>` | Neues Notebook nach Konvention anlegen |
 | `/ai-log <was>` | Eintrag in `docs/ai-log.md` |
