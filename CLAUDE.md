@@ -100,14 +100,25 @@ die Folgen für die Bewertung.
   `docker-compose.yml`. Der Code ist für beide derselbe.
 - **SQL so schreiben, dass es auf SQLite und PostgreSQL läuft:** Standard-SQL,
   benannte Parameter (`:name`), keine datenbankspezifischen Funktionen wie
-  `strftime` (SQLite) oder `date_trunc` (PostgreSQL). Zeitfunktionen in pandas
-  rechnen. Ziel für die Abgabe ist PostgreSQL.
+  `strftime` (SQLite) oder `date_trunc` (PostgreSQL). Datums- und Zeitlogik
+  (z. B. die Stunde bestimmen) in pandas rechnen und als Spalte speichern. Ziel
+  für die Abgabe ist PostgreSQL.
+- **Joins und Aggregationen in SQL, nicht nur in pandas.** Der Zusatzpunkt
+  PostgreSQL verlangt ausdrücklich «SQL joins and aggregations from within
+  Python». Das heisst: die Integration der Quellen per `JOIN` und Kennzahlen wie
+  Verspätungsquoten pro Gruppe per `GROUP BY` über `src/db.query()`. pandas ist
+  für die Aufbereitung vorher und für Plots und Modelle danach.
 - Jedes Notebook endet mit der Footer-Zelle aus der Kursvorlage (OS, Datum,
   Python-Version). Die Vorlage legt `/new-notebook` an.
 - **Nie committen:** Rohdaten, `data/processed/`, `*.sqlite`, `.env`,
   API-Keys, Videos. Vor jedem Commit `git status` prüfen.
 - Alles muss reproduzierbar sein: Aus einem frischen Clone erzeugen die Skripte
   in `src/` die Daten in `data/` neu.
+- **Die Abgabe-ZIP muss alle Daten enthalten** (Moodle: «Zip file with all data
+  and your Jupyter notebook(s)»). Die Rohdaten sind dafür zu gross. Darum gehört
+  eine kompakte Export-Funktion dazu: die Analysetabelle(n) und eine
+  Rohdaten-Stichprobe als CSV oder Parquet sowie die Skripte zum vollständigen
+  Neuaufbau.
 - Vor dem Commit Notebook-Outputs löschen, ausser bei Grafiken, die bewusst
   sichtbar bleiben sollen.
 - Kleine Commits mit klarer englischer Message. Kein `git push --force`, kein

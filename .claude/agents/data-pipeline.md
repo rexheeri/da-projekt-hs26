@@ -20,6 +20,8 @@ Clone erzeugen die Skripte in `src/` alle Daten in `data/` neu.
 - Die Datenbank ist SQLite oder PostgreSQL, je nach `DATABASE_URL` in `.env`.
   SQL muss auf beiden laufen: Standard-SQL, benannte Parameter `:name`,
   Datums- und Zeitlogik in pandas statt in SQL.
+- **Joins und Aggregationen in SQL** (über `src/db.query`), nicht nur in pandas.
+  Der PostgreSQL-Zusatzpunkt verlangt «SQL joins and aggregations from within Python».
 - Downloads laufen **per Skript über die API**. Das hat der Dozent als eigene
   Datenerhebung akzeptiert. Manuell heruntergeladene Dateien zählen nicht.
 - API-Keys oder Tokens nur in `.env` (über `python-dotenv` laden), nie im Code.

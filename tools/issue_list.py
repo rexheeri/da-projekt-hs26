@@ -117,7 +117,7 @@ Target: Wed 04.11. · Role C + all"""},
 
 Target: Fri 06.11. · Role A"""},
     {"title": "Join arrivals → stop → nearest station → hour", "labels": ["data", "database"], "milestone": M1,
-     "body": """- [ ] SQL join (or pandas + write back) arrivals × stop_station × weather_hourly
+     "body": """- [ ] **SQL** join arrivals × stop_station × weather_hourly (joins in SQL count for the PostgreSQL bonus)
 - [ ] Rows before/after, lost records and reasons → `docs/integration-log.md`
 - [ ] Spot check 5 rows by hand
 - [ ] View/table `analysis_base` with all variables from research-design
@@ -244,9 +244,18 @@ Target: 06.01. · all"""},
 - [ ] Slide for the PDF and part for the video
 
 Target: 03.01. · all"""},
+    {"title": "Data export for the submission zip (all data must be included)", "labels": ["data", "admin"], "milestone": M2,
+     "body": """Moodle: "Zip file with **all data** and your Jupyter notebook(s)". Raw Ist-Daten are too large.
+
+- [ ] `src/` export script: analysis table(s) + raw sample per source as CSV/Parquet into `data/export/`
+- [ ] Check total size; split if Moodle limit is exceeded
+- [ ] README section: how to rebuild the full data from scratch
+- [ ] Test: notebooks run on the exported data only
+
+Target: 03.01. · Role A"""},
     {"title": "Submission package on Moodle", "labels": ["admin"], "milestone": M2,
      "body": """- [ ] `/check-grading` run, gaps closed
-- [ ] `materials_group_XX.zip` (code, notebooks, scripts; data or rebuild instructions)
+- [ ] `materials_group_XX.zip` (all data from the export issue, notebooks, code)
 - [ ] `presentation_group_XX.pdf`
 - [ ] `video_recording_group_XX.mp4`
 - [ ] Group number filled in for XX

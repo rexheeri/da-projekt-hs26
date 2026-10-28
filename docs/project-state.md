@@ -80,9 +80,9 @@ Everything else is a planned value. Full plan: `docs/workplan.md`, tasks: GitHub
 | Does downloading the Ist-Daten daily files by script count as own data collection? | **Yes**, it's an API. |
 | Does PostgreSQL replace the SQLite requirement? | **Yes**, PostgreSQL replaces SQLite (and earns the bonus point). |
 | Max. 16 or 22 points? Conversion to grade? | **22 points** (9 + 6 + 7). Grade conversion after all projects are assessed, i.e. relative. |
-| Where did we see "16 points"? | He asks us to tell him. **Open, ER replies** (issue). |
+| Where did we see "16 points"? | Found: Moodle course index (left navigation) says "Project evaluation (max. 16 points)", the section says 22. **ER replies** (issue). |
 
-Still missing: the rest of the Moodle page "Evaluation of the project concept presentation" below the grading scale.
+Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 
 ## Decisions
 
@@ -93,6 +93,8 @@ Still missing: the rest of the Moodle page "Evaluation of the project concept pr
 | 2026-10-28 | Code, docs and deliverables in English | language of instruction and assessment |
 | 2026-10-28 | Target database PostgreSQL (PostGIS image), SQLite as fallback, same code via SQLAlchemy | PostgreSQL replaces SQLite and earns a bonus point; fallback keeps us working if Docker causes trouble before 17.11. |
 | 2026-10-28 | Code is always commented (docstrings + comments on non-obvious steps) | everyone must understand and explain every part in the video |
+| 2026-10-28 | Joins and aggregations in SQL (via `src/db.query`), not only pandas | PostgreSQL bonus explicitly asks for "SQL joins and aggregations from within Python" |
+| 2026-10-28 | Submission zip contains a compact data export (analysis tables + raw samples) | Moodle requires "all data"; raw Ist-Daten are too large |
 | 2026-10-28 | Ist-Daten only via scripted API download | condition for counting as own data collection |
 
 ## Change log
@@ -100,3 +102,4 @@ Still missing: the rest of the Moodle page "Evaluation of the project concept pr
 - 2026-10-28 ER: repo, Claude configuration and team rules created
 - 2026-10-28 ER: lecturer's answers added; database layer switched to SQLAlchemy (SQLite/PostgreSQL), docker-compose added
 - 2026-10-28 ER: grading.md (full presentation criteria + scale), research-design.md (hypotheses), workplan.md, concept-presentation.md, onboarding.md, issue script added
+- 2026-10-28 ER: full Moodle text in grading.md (video criteria, PDF structure, zip with all data, SQL joins/aggregations)

@@ -1,6 +1,8 @@
 # AI usage log
 
-Required for grading: document where AI was used, what worked, what didn't and where it failed.
+Required for grading: document AI usage **for the code and for the presentation**
+(slides, texts, charts): which tool, for which task, advantages, disadvantages,
+and where something did not work. It must also appear in the slides **and** the video.
 Add an entry **when it happens**, not at the end of the project.
 
 | Date | Who | Tool | Task | Result | What went wrong / what we had to fix |
