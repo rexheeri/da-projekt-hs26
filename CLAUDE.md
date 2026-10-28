@@ -87,6 +87,12 @@ die Folgen für die Bewertung.
   Fremde Notebooks nur lesen.
 - **Gemeinsamer Code gehört nach `src/`.** Sobald zwei Notebooks dieselbe
   Funktion brauchen, wandert sie nach `src/` und wird importiert.
+- **Code ist immer kommentiert** (Teamregel). Jede Datei beginnt mit einem
+  Docstring (Zweck, Verwendung), jede Funktion hat einen Docstring, und jeder
+  nicht offensichtliche Schritt hat einen Kommentar, der sagt, *was* passiert
+  und *warum*. In Notebooks steht vor jeder Code-Zelle eine kurze
+  Markdown-Zelle oder ein Kommentar. Kommentare auf Englisch. Code ohne
+  Kommentare gilt als nicht fertig.
 - Pfade nur über `src/paths.py`, nie absolute Pfade wie `C:\Users\...`.
 - Datenbankzugriff nur über `src/db.py` (SQLAlchemy, wie in der
   Kursvorlage). Welche Datenbank verwendet wird, steht in `.env`

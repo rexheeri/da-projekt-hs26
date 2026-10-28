@@ -35,6 +35,9 @@ Verkehrsart reicht dafür nicht. Es braucht einen direkten Effektvergleich.
 - Confounding: Sind Tageszeit, Wochentag und Ferien berücksichtigt?
 - Feature Importance wird nicht als Kausalität interpretiert.
 
+**Kommentare**
+- Ist jede Code-Zelle kommentiert bzw. erklärt? Fehlende Kommentare als 🟡 melden.
+
 **Darstellung**
 - Achsen beschriftet, Einheiten angegeben, Vergleichsgruppen nebeneinander
 - Interpretation in einfachen Worten, die jemand im Video frei sagen kann

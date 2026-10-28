@@ -40,4 +40,6 @@ Am Ende:
 - Die **drei Massnahmen mit dem grössten Punktegewinn pro Aufwand**, konkret
   mit Datei und Person (falls Rollen in `project-state.md` stehen).
 
+Melde zusätzlich Code ohne Kommentare (Teamregel), mit Datei.
+
 Ändere keine Dateien.

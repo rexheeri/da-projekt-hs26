@@ -12,6 +12,8 @@ Clone erzeugen die Skripte in `src/` alle Daten in `data/` neu.
 - Code in `src/` als einfache, gut lesbare Funktionen. Kein Framework, keine
   Klassenhierarchien. Jedes Gruppenmitglied muss den Code im Video erklären
   können.
+- **Jeder Code ist kommentiert:** Docstring pro Datei und Funktion,
+  Kommentar bei jedem nicht offensichtlichen Schritt (was und warum).
 - Pfade nur über `src/paths.py`, Datenbank nur über `src/db.py`.
 - Rohdaten nach `data/raw/`, bereinigte Zwischenstände nach
   `data/processed/`. Beides ist git-ignoriert und wird nie committet.

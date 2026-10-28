@@ -89,10 +89,11 @@ The repo contains a shared Claude setup (`CLAUDE.md`, `.claude/`, `docs/claude/`
 1. **Pull before you start.** `git pull` every time you open the project.
 2. **One notebook, one owner.** Notebooks merge badly in Git. Never edit someone else's notebook. Name them `NN_topic_initials.ipynb`, e.g. `02_eda_weather_er.ipynb`.
 3. **Shared code goes into `src/`.** As soon as two notebooks need the same function, move it to `src/` and import it.
-4. **Clear outputs before committing** (Jupyter: "Clear All Outputs"). Keeps diffs small and avoids conflicts.
-5. **Small commits with a clear message**, e.g. `Add MeteoSwiss STAC download for Zurich stations`.
-6. **Never commit data, the database, `.env` or API keys.** `.gitignore` covers the usual paths – check `git status` before committing.
-7. **Log AI usage immediately** in `docs/ai-log.md` – reconstructing it at the end does not work.
+4. **Always comment your code.** Every file and function gets a docstring, every non-obvious step a comment saying what happens and why. Every notebook cell is preceded by a short markdown explanation. Uncommented code is not done.
+5. **Clear outputs before committing** (Jupyter: "Clear All Outputs"). Keeps diffs small and avoids conflicts.
+6. **Small commits with a clear message**, e.g. `Add MeteoSwiss STAC download for Zurich stations`.
+7. **Never commit data, the database, `.env` or API keys.** `.gitignore` covers the usual paths – check `git status` before committing.
+8. **Log AI usage immediately** in `docs/ai-log.md` – reconstructing it at the end does not work.
 
 ## Group
 

@@ -92,6 +92,7 @@ Still missing: the rest of the Moodle page "Evaluation of the project concept pr
 | 2026-10-28 | One notebook = one owner; shared code in `src/` | notebooks cannot be merged reliably |
 | 2026-10-28 | Code, docs and deliverables in English | language of instruction and assessment |
 | 2026-10-28 | Target database PostgreSQL (PostGIS image), SQLite as fallback, same code via SQLAlchemy | PostgreSQL replaces SQLite and earns a bonus point; fallback keeps us working if Docker causes trouble before 17.11. |
+| 2026-10-28 | Code is always commented (docstrings + comments on non-obvious steps) | everyone must understand and explain every part in the video |
 | 2026-10-28 | Ist-Daten only via scripted API download | condition for counting as own data collection |
 
 ## Change log
