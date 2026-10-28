@@ -4,6 +4,10 @@ pandas>=2.2
 requests>=2.31
 python-dotenv>=1.0
 
+# Database (SQLite or PostgreSQL via the same code)
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+
 # Notebooks
 jupyter>=1.0
 ipykernel>=6.29

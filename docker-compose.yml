@@ -1,0 +1,41 @@
+# PostgreSQL (with PostGIS for geodata) + pgAdmin for local development.
+# Based on the course template github.com/mario-gellrich-zhaw/python_postgresql_pgadmin
+#
+# Start:  docker compose up -d
+# Stop:   docker compose down          (data is kept in the volume)
+# pgAdmin: http://localhost:5050  -> add server: host "db", port 5432, credentials from .env
+
+services:
+
+  db:
+    image: postgis/postgis:17-3.5
+    container_name: da_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-pgadmin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-geheim}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: da_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@example.com
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD:-geheim}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  pgadmin_data:

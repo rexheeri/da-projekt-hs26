@@ -25,10 +25,11 @@ teilweise / ❌ fehlt) · Beleg (Datei:Zeile oder Notebook-Zelle) · was fehlt.
 Blöcke:
 - **Mindestanforderungen (9 P):** eigene Erhebung per Scraping/API · ≥ 2 Quellen
   integriert und dokumentiert (Keys, Joins, Inkonsistenzen, Records
-  verloren/gewonnen) · SQLite + SQL aus Python · EDA tabellarisch und grafisch ·
+  verloren/gewonnen) · Datenbank (SQLite oder PostgreSQL) + SQL aus Python · EDA tabellarisch und grafisch ·
   Regression/Klassifikation mit Vergleichsfrage · Measures of fit · korrekte
   Interpretation · KI-Nutzung dokumentiert · Material bereit für Moodle
-- **Zusatzpunkte (max. 6 P):** Kreativität · PostgreSQL · Geodaten ·
+- **Zusatzpunkte (max. 6 P):** Kreativität · PostgreSQL (zählt nur, wenn die
+  Abgabe wirklich auf PostgreSQL läuft, nicht nur `docker-compose.yml` im Repo) · Geodaten ·
   Chi²/ANOVA/Korrelation mit p-Wert · k-means · öffentliches GitHub-Repo
 - **Video (max. 7 P):** nur bewertbar, wenn Skript oder Folien vorliegen
 - **Konzeptpräsentation (8 Kriterien, je 1–6):** nur vor dem 17.11. relevant

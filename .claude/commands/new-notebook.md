@@ -23,5 +23,18 @@ Lege ein neues Jupyter-Notebook an. Argumente: $ARGUMENTS
      ```
    - Markdown-Zellen als Gliederung: `## 1. Load data`, `## 2. …`,
      `## Findings` (für die Folien), `## Open questions`
+   - Am Schluss die Footer-Zelle aus der Kursvorlage (Markdown
+     `### Jupyter notebook --footer info--`, darunter Code):
+     ```python
+     import os, platform
+     from platform import python_version
+     from datetime import datetime
+     print('-----------------------------------')
+     print(os.name.upper())
+     print(platform.system(), '|', platform.release())
+     print('Datetime:', datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+     print('Python Version:', python_version())
+     print('-----------------------------------')
+     ```
 4. Erinnere daran: Dieses Notebook gehört nur dieser Person. Gemeinsame
    Funktionen gehören nach `src/`.

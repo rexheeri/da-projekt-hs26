@@ -2,7 +2,7 @@
 
 ZHAW School of Management and Law · BSc Business Information Technology · Module Data Analytics (3DA), HS 2026
 
-> **Status:** Concept phase. The topic is not yet approved; approval follows at the concept presentation on 17.11.2026.
+> **Status:** Concept phase. Topic and method assessed as suitable by the lecturer; formal approval at the concept presentation on 17.11.2026.
 
 ## Research question (draft)
 
@@ -12,7 +12,7 @@ Does the probability of a train delay of 3 minutes or more increase more strongl
 
 | Source | Access | Content |
 |---|---|---|
-| opentransportdata.swiss – Ist-Daten | daily files, downloaded by script | actual vs. scheduled arrival/departure per stop |
+| Ist-Daten (opentransportdata.swiss / opendata.swiss) | daily files via API, downloaded by script | actual vs. scheduled arrival/departure per stop |
 | MeteoSwiss Open Data (STAC API) | Web API | precipitation, snow, temperature per weather station |
 | Service point directory (Dienststellen) | download | stop coordinates for the spatial join |
 
@@ -33,8 +33,10 @@ docs/
 notebooks/      Jupyter notebooks, one owner per notebook
 src/            reusable Python code
   paths.py      project paths
-  db.py         SQLite access (query, write_table, list_tables)
+  db.py         database access, SQLite or PostgreSQL (query, write_table, list_tables)
   check_setup.py
+.env.example    template for .env (database URL, credentials)
+docker-compose.yml   PostgreSQL (PostGIS) + pgAdmin
 CLAUDE.md       rules for Claude (grading criteria, guardrails, repo rules)
 ```
 
@@ -55,6 +57,20 @@ python -m src.check_setup
 ```
 
 In VS Code: select the interpreter from `.venv` (Ctrl+Shift+P → "Python: Select Interpreter").
+
+### Database
+
+The code works with SQLite and PostgreSQL alike (`src/db.py`, SQLAlchemy). Target for the submission is PostgreSQL.
+
+- **SQLite (default, no setup):** nothing to do. The database is created at `data/processed/project.sqlite`.
+- **PostgreSQL:** requires Docker Desktop (or a GitHub Codespace).
+  ```bash
+  copy .env.example .env        # macOS/Linux: cp .env.example .env
+  # in .env: uncomment the DATABASE_URL line for PostgreSQL
+  docker compose up -d
+  python -m src.check_setup     # should report "Database works: postgresql"
+  ```
+  pgAdmin runs at http://localhost:5050.
 
 ## Working with Claude
 

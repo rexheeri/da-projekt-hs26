@@ -13,8 +13,13 @@ Clone erzeugen die Skripte in `src/` alle Daten in `data/` neu.
   Klassenhierarchien. Jedes Gruppenmitglied muss den Code im Video erklären
   können.
 - Pfade nur über `src/paths.py`, Datenbank nur über `src/db.py`.
-- Rohdaten nach `data/raw/`, bereinigte Daten und `project.sqlite` nach
+- Rohdaten nach `data/raw/`, bereinigte Zwischenstände nach
   `data/processed/`. Beides ist git-ignoriert und wird nie committet.
+- Die Datenbank ist SQLite oder PostgreSQL, je nach `DATABASE_URL` in `.env`.
+  SQL muss auf beiden laufen: Standard-SQL, benannte Parameter `:name`,
+  Datums- und Zeitlogik in pandas statt in SQL.
+- Downloads laufen **per Skript über die API**. Das hat der Dozent als eigene
+  Datenerhebung akzeptiert. Manuell heruntergeladene Dateien zählen nicht.
 - API-Keys oder Tokens nur in `.env` (über `python-dotenv` laden), nie im Code.
 - Downloads sind idempotent: Bereits vorhandene Dateien werden übersprungen.
   Zwischen API-Requests eine kurze Pause, die Nutzungsbedingungen der Quelle

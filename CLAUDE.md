@@ -59,10 +59,14 @@ nur gut erfüllen, wenn bis dahin **echte Daten** geladen sind.
 
 ### Schlussprojekt — max. 22 Punkte
 **Mindestanforderungen (9 P)**
-- Eigene Datenerhebung per Web Scraping oder Web API (kein Kaggle als Hauptquelle)
+- Eigene Datenerhebung per Web Scraping oder Web API (kein Kaggle als
+  Hauptquelle). Gellrich hat bestätigt: Die Ist-Daten **per Skript über die
+  API** herunterzuladen zählt. Ein manueller Download zählt also nicht, es muss
+  ein Skript in `src/` sein.
 - ≥ 2 Quellen integriert; Integration dokumentiert: Keys, Joins,
   Inkonsistenzen, Records verloren/gewonnen → `docs/integration-log.md`
-- SQLite-Datenbank, Abfragen mit SQL aus Python → `src/db.py`
+- Datenbank, Abfragen mit SQL aus Python → `src/db.py`. Gellrich hat
+  bestätigt: **PostgreSQL ersetzt SQLite** und gibt zusätzlich den Zusatzpunkt.
 - EDA tabellarisch **und** grafisch
 - Regression oder Klassifikation mit einer Forschungsfrage, die über eine
   Standardprognose hinausgeht (Vergleich von Gruppen, Regionen, Zeiträumen
@@ -86,9 +90,11 @@ Zeiteinhaltung. **Nicht durch Notebooks scrollen.**
   Results & Discussion, Conclusions, KI-Reflexion, **Anhang mit
   Punkte-Selbsteinschätzung inkl. Screenshots/Code**
 
-Bekannte Widersprüche auf Moodle: «max. 16 points» vs. «max. 22 points» und
-Abgabeslot «11 January 2026» vs. Titel «10.01.2027». Geplant wird mit 22 Punkten
-und dem 10.01.2027.
+**Es gelten max. 22 Punkte** (Gellrich bestätigt). Die Umrechnung in eine Note
+macht er erst nach der Bewertung aller Projekte, also relativ zu den anderen
+Gruppen. Daraus folgt: Jeder Punkt zählt, nichts liegen lassen.
+Abgabeslot auf Moodle widersprüchlich («11 January 2026» vs. Titel
+«10.01.2027»). Geplant wird mit dem 10.01.2027.
 
 ## 4. Methodische Leitplanken
 
@@ -106,6 +112,9 @@ Verspätungen im Regionalverkehr *stärker* als im Fernverkehr? Daraus folgt:
   Accuracy allein ist irreführend, deshalb immer Recall, Precision und AUC.
 - **Confounding:** Tageszeit, Wochentag und Ferien als Variablen aufnehmen,
   sonst misst das Modell den Berufsverkehr statt das Wetter.
+- Gellrich hat Classification als Methode ausdrücklich als geeignet
+  bestätigt. Der Effektvergleich oben bleibt trotzdem nötig, weil er die
+  Vergleichsfrage beantwortet.
 - **Train/Test-Split vor jeder Modellanpassung.** Kein Data Leakage, also keine
   Variablen, die erst nach der Abfahrt bekannt sind.
 - Korrelation ≠ Kausalität. In Interpretationen sauber formulieren.
@@ -121,7 +130,16 @@ die Folgen für die Bewertung.
 - **Gemeinsamer Code gehört nach `src/`.** Sobald zwei Notebooks dieselbe
   Funktion brauchen, wandert sie nach `src/` und wird importiert.
 - Pfade nur über `src/paths.py`, nie absolute Pfade wie `C:\Users\...`.
-- Datenbankzugriff nur über `src/db.py`.
+- Datenbankzugriff nur über `src/db.py` (SQLAlchemy, wie in der
+  Kursvorlage). Welche Datenbank verwendet wird, steht in `.env`
+  (`DATABASE_URL`): ohne Eintrag SQLite, mit Eintrag PostgreSQL aus
+  `docker-compose.yml`. Der Code ist für beide derselbe.
+- **SQL so schreiben, dass es auf SQLite und PostgreSQL läuft:** Standard-SQL,
+  benannte Parameter (`:name`), keine datenbankspezifischen Funktionen wie
+  `strftime` (SQLite) oder `date_trunc` (PostgreSQL). Zeitfunktionen in pandas
+  rechnen. Ziel für die Abgabe ist PostgreSQL.
+- Jedes Notebook endet mit der Footer-Zelle aus der Kursvorlage (OS, Datum,
+  Python-Version). Die Vorlage legt `/new-notebook` an.
 - **Nie committen:** Rohdaten, `data/processed/`, `*.sqlite`, `.env`,
   API-Keys, Videos. Vor jedem Commit `git status` prüfen.
 - Alles muss reproduzierbar sein: Aus einem frischen Clone erzeugen die Skripte
