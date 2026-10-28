@@ -1,0 +1,26 @@
+# Core
+numpy>=1.26
+pandas>=2.2
+requests>=2.31
+python-dotenv>=1.0
+
+# Notebooks
+jupyter>=1.0
+ipykernel>=6.29
+
+# Visualisation
+matplotlib>=3.8
+seaborn>=0.13
+
+# Statistics and machine learning
+scipy>=1.12
+statsmodels>=0.14
+scikit-learn>=1.4
+
+# Geodata
+geopandas>=0.14
+folium>=0.16
+
+# Data access
+pystac-client>=0.7
+beautifulsoup4>=4.12

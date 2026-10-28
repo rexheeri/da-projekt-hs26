@@ -1,0 +1,39 @@
+# --- Data (rebuilt by scripts, never committed) ---
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+*.sqlite
+*.sqlite3
+*.db
+*.parquet
+*.zip
+*.gz
+
+# --- Secrets ---
+.env
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Editors / OS ---
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Deliverables (large, uploaded to Moodle, not to Git) ---
+*.mp4
