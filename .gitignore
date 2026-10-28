@@ -10,6 +10,10 @@ data/processed/*
 *.zip
 *.gz
 
+# --- Personal Claude settings ---
+CLAUDE.local.md
+.claude/settings.local.json
+
 # --- Secrets ---
 .env
 *.key

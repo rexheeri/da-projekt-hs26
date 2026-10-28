@@ -21,14 +21,21 @@ Raw data is **not** committed (too large). Every script under `src/` must be abl
 ## Repository structure
 
 ```
+.claude/        shared Claude Code setup (agents, slash commands, permissions)
 data/
   raw/          downloaded source files (git-ignored)
   processed/    cleaned / joined data, SQLite database (git-ignored)
 docs/
+  project-state.md     shared project state: roles, decisions, open questions, timeline
   ai-log.md            log of AI usage (required for grading)
   integration-log.md   keys, joins, inconsistencies, records lost/gained (required for grading)
+  claude/              how to use Claude in this project, prompts
 notebooks/      Jupyter notebooks, one owner per notebook
-src/            reusable Python code (data loading, database, helpers)
+src/            reusable Python code
+  paths.py      project paths
+  db.py         SQLite access (query, write_table, list_tables)
+  check_setup.py
+CLAUDE.md       rules for Claude (grading criteria, guardrails, repo rules)
 ```
 
 ## Setup
@@ -36,17 +43,22 @@ src/            reusable Python code (data loading, database, helpers)
 Requires Python 3.10 or newer.
 
 ```bash
-git clone https://github.com/<owner>/<repo>.git
-cd <repo>
+git clone https://github.com/rexheeri/da-projekt-hs26.git
+cd da-projekt-hs26
 python -m venv .venv
 # Windows:
 .venv\Scripts\activate
 # macOS / Linux:
 source .venv/bin/activate
 pip install -r requirements.txt
+python -m src.check_setup
 ```
 
 In VS Code: select the interpreter from `.venv` (Ctrl+Shift+P → "Python: Select Interpreter").
+
+## Working with Claude
+
+The repo contains a shared Claude setup (`CLAUDE.md`, `.claude/`, `docs/claude/`) so that every team member's Claude knows the same rules, grading criteria and project state. Setup and usage: **[docs/claude/README.md](docs/claude/README.md)**.
 
 ## How we work together
 
@@ -60,11 +72,11 @@ In VS Code: select the interpreter from `.venv` (Ctrl+Shift+P → "Python: Selec
 
 ## Group
 
-| Name | Main responsibility |
+| GitHub | Main responsibility |
 |---|---|
-| Erion Rexhepi | tbd |
-| tbd | tbd |
-| tbd | tbd |
+| [@rexheeri](https://github.com/rexheeri) | tbd |
+| [@desalce](https://github.com/desalce) | tbd |
+| [@lvnkhn](https://github.com/lvnkhn) | tbd |
 
 ## Deliverables
 
