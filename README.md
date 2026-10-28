@@ -97,11 +97,13 @@ The repo contains a shared Claude setup (`CLAUDE.md`, `.claude/`, `docs/claude/`
 
 ## Group
 
-| GitHub | Main responsibility |
-|---|---|
-| [@rexheeri](https://github.com/rexheeri) | tbd |
-| [@desalce](https://github.com/desalce) | tbd |
-| [@lvnkhn](https://github.com/lvnkhn) | tbd |
+Group 3
+
+| Name | GitHub | Role |
+|---|---|---|
+| Erion | [@rexheeri](https://github.com/rexheeri) | tbd |
+| Lorenzo | [@desalce](https://github.com/desalce) | tbd |
+| Levin | [@lvnkhn](https://github.com/lvnkhn) | tbd |
 
 ## Deliverables
 

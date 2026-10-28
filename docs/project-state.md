@@ -5,15 +5,18 @@ session. Anything not written here is unknown in the next session.
 
 **Last updated:** 2026-10-28 (ER)
 
-## Group
+## Group 3
 
-| Name | GitHub | Initials | Main responsibility |
+Moodle group number **3** → file names `…_group_03`. Presentation slot: morning
+class, **Tue 17.11.2026, 11:00–12:45, SW301**.
+
+| Name | GitHub | Initials | Role |
 |---|---|---|---|
 | Erion | rexheeri | ER | tbd |
-| Lorenzo | tbd | tbd | tbd |
-| Levin | tbd | tbd | tbd |
+| Lorenzo | desalce | LS | tbd |
+| Levin | lvnkhn | LK | tbd |
 
-GitHub invitations sent to `desalce` and `lvnkhn`. Please fill in your own row.
+Roles A/B/C: see `docs/workplan.md`. Please confirm your initials and role in your onboarding issue.
 
 Planned split of responsibilities (not yet assigned to people):
 1. Timetable data (Ist-Daten via API) + database (PostgreSQL)
@@ -103,3 +106,4 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 - 2026-10-28 ER: lecturer's answers added; database layer switched to SQLAlchemy (SQLite/PostgreSQL), docker-compose added
 - 2026-10-28 ER: grading.md (full presentation criteria + scale), research-design.md (hypotheses), workplan.md, concept-presentation.md, onboarding.md, issue script added
 - 2026-10-28 ER: full Moodle text in grading.md (video criteria, PDF structure, zip with all data, SQL joins/aggregations)
+- 2026-10-28 ER: group number 3, GitHub handles, presentation slot added

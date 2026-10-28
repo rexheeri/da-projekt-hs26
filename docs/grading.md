@@ -123,12 +123,12 @@ Lecturer's notes:
 - "AI is a tool, not a substitute for understanding. The evaluation focuses on
   your ability to **explain and justify** your data, methods, and results."
 
-### Submission (on Moodle, with the group number, by one student)
-- `video_recording_group_XX.mp4`. If too large for Moodle, split it:
-  `video_recording_group_XX_part_1.mp4`, …
-- `materials_group_XX.zip` with **all data** and the Jupyter notebooks.
+### Submission (on Moodle, group number **3**, by one student)
+- `video_recording_group_03.mp4`. If too large for Moodle, split it:
+  `video_recording_group_03_part_1.mp4`, …
+- `materials_group_03.zip` with **all data** and the Jupyter notebooks.
   The data must be included, so plan a compact export (see work plan).
-- `presentation_group_XX.pdf`, minimal structure:
+- `presentation_group_03.pdf`, minimal structure:
   1. Title and **full name** of each student
   2. Introduction: background, problem, objective, research question
   3. Materials and methods: data collection method, content of data, EDA

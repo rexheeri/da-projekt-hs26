@@ -235,7 +235,7 @@ Target: 03.01. · all"""},
 - [ ] Freely spoken, no notebook scrolling
 - [ ] AI reflection part included
 - [ ] Length checked (time keeping is graded)
-- [ ] File name `video_recording_group_XX.mp4` (parts if needed)
+- [ ] File name `video_recording_group_03.mp4` (parts if needed)
 
 Target: 06.01. · all"""},
     {"title": "AI reflection summary", "labels": ["docs"], "milestone": M2,
@@ -255,10 +255,9 @@ Target: 03.01. · all"""},
 Target: 03.01. · Role A"""},
     {"title": "Submission package on Moodle", "labels": ["admin"], "milestone": M2,
      "body": """- [ ] `/check-grading` run, gaps closed
-- [ ] `materials_group_XX.zip` (all data from the export issue, notebooks, code)
-- [ ] `presentation_group_XX.pdf`
-- [ ] `video_recording_group_XX.mp4`
-- [ ] Group number filled in for XX
+- [ ] `materials_group_03.zip` (all data from the export issue, notebooks, code)
+- [ ] `presentation_group_03.pdf`
+- [ ] `video_recording_group_03.mp4`
 - [ ] Uploaded by one person, confirmation screenshot
 
 Target: 08.01., deadline **10.01.2027, 23:59** · ER"""},
