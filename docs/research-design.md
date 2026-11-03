@@ -44,6 +44,24 @@ which the grading requires ("beyond a standard prediction").
 - **Study period.** Winter months with enough snow days in Zurich. Determine
   it from the weather data first, then download the Ist-Daten for that period.
 
+### VERIFY results (2026-11-03, ER with Claude Code, checked on real files)
+
+| Item | Result | Evidence |
+|---|---|---|
+| Ist-Daten format | `;`-separated, UTF-8, 22 columns: BETRIEBSTAG, FAHRT_BEZEICHNER, BETREIBER_ID, BETREIBER_ABK, BETREIBER_NAME, PRODUKT_ID, LINIEN_ID, LINIEN_TEXT, UMLAUF_ID, VERKEHRSMITTEL_TEXT, ZUSATZFAHRT_TF, FAELLT_AUS_TF, BPUIC, HALTESTELLEN_NAME, ANKUNFTSZEIT, AN_PROGNOSE, AN_PROGNOSE_STATUS, ABFAHRTSZEIT, AB_PROGNOSE, AB_PROGNOSE_STATUS, DURCHFAHRT_TF, SLOID | portal file 21.10.2026, archive files 2026-01 and 2026-03 (v1 also has SLOID since Oct 2025; 2024 files have 21 columns, without SLOID) |
+| Time zone Ist-Daten | **Swiss local time** (CET/CEST) | night of the switch to summer time, 29.03.2026: 0 scheduled arrivals 02:00–02:59 (one week earlier, 22.03.: 14,376) |
+| Time formats | ANKUNFTSZEIT `DD.MM.YYYY HH:MM` (scheduled, minutes); AN_PROGNOSE `DD.MM.YYYY HH:MM:SS` (actual) | real files |
+| Arrival status column | `AN_PROGNOSE_STATUS`, values REAL / PROGNOSE / UNBEKANNT / empty. ZH trains 21.10.2026 with a scheduled arrival: REAL 22,700 (95.3 %), UNBEKANNT 954, PROGNOSE 175. Empty = first stop of a trip (no arrival) | cookbook + data |
+| Cancellation flag | `FAELLT_AUS_TF` (`true`/`false`); cancelled rows have status UNBEKANNT and no actual time | 08.01.2026: 1,165 cancelled train rows CH-wide; 21.10.2026: 1,169 at ZH stops |
+| Extra trips | `ZUSATZFAHRT_TF`; 136 rows at ZH stops on 21.10.2026 | data |
+| Train category column | `VERKEHRSMITTEL_TEXT` (S, IR, IC, RE, EC, ICE, TGV, NJ, RJX, EXT at ZH stops); `PRODUKT_ID = 'Zug'` selects trains. `LINIEN_TEXT` has the line (S10, IC1 …) | data |
+| Stop key | Ist-Daten `BPUIC` (7 digits for trains) = service point `number` | 156 of 182 ZH stops matched on 21.10.2026 |
+| 3-min threshold source | SBB: "A train counts as on time if it reaches stations with less than 3 minutes' delay … Trains cancelled at short notice are counted as not on time." SBB counts **RE as long-distance** (EC, ICE, RJX, TGV, IC, IR, RE) | reporting.sbb.ch/punctuality (accessed 2026-11-03) |
+| MeteoSwiss time zone | **UTC** | opendatadocs.meteoswiss.ch/general/download: "All reference time stamps at MeteoSwiss are in UTC!" |
+| Hourly interval | timestamp = **end** of the hour: "ReferenceTS 16:00 = 15:10 to 16:00" (since 2018) | same page |
+| Parameter codes | `rre150h0` precipitation hourly total (mm), `tre200h0` air temperature 2 m hourly mean (°C), `htoauths` snow depth hourly (cm). No fresh-snow parameter in SMN | `ogd-smn_meta_parameters.csv` |
+| Weather file format | `;`, decimal point, Windows-1252, missing = empty field | MeteoSwiss docs + files |
+
 ## 3. Hypotheses and tests
 
 Significance level **α = 0.05** for all tests, fixed in advance.
