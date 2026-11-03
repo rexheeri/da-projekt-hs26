@@ -3,6 +3,7 @@ numpy>=1.26
 pandas>=2.2
 requests>=2.31
 python-dotenv>=1.0
+pyarrow>=17          # Parquet files (daily extracts, team export, submission export)
 
 # Database (SQLite or PostgreSQL via the same code)
 sqlalchemy>=2.0
