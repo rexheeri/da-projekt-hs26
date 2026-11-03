@@ -23,7 +23,8 @@ Required for grading: document how the sources were combined – keys, joins, in
 
 | Step | Left | Right | Key(s) | Join type | Rows before | Rows after | Lost / gained | Reason |
 |---|---|---|---|---|---|---|---|---|
-| J1 (prototype, not yet in DB) | 182 ZH train stops | 17 SMN stations (HOE excluded) | nearest neighbour in LV95 (EPSG:2056), `geopandas.sjoin_nearest` | left | 182 | 182 | 0 unmatched | every stop gets a station; median distance 7.4 km, max 14.9 km, 36 stops > 10 km (Winterthur area) |
+| J1 (prototype, 2026-11-03) | 182 ZH train stops | 17 SMN stations (HOE excluded) | nearest neighbour in LV95 (EPSG:2056), `geopandas.sjoin_nearest` | left | 182 | 182 | 0 unmatched | every stop gets a station; median distance 7.4 km, max 14.9 km, 36 stops > 10 km (Winterthur area) |
+| J2 → table `stop_station` (2026-11-03) | 182 ZH train stops | precipitation: 17 SMN + 142 `ogd-smn-precip` stations; temperature: 17 SMN | nearest neighbour in LV95, `sjoin_nearest`, ties → first station | left | 182 | 182 | 0 unmatched, 0 duplicates | precipitation: median 3.6 km, max 10.3 km, 1 stop > 10 km; temperature: median 7.4 km, max 14.9 km, 36 stops > 10 km. 26 stations used (`weather_stations`) |
 
 ## Inconsistencies found
 
