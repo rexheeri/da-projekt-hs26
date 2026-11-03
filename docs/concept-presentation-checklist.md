@@ -113,8 +113,8 @@ Gellrich formally approves the topic at the presentation. These questions are th
 | Why exactly 3 minutes? | SBB definition of customer punctuality (show the source), binary target for the classification |
 | Does the archive download count as own data collection? | Gellrich confirmed the scripted download of the daily files as own data collection; the winter data are in the official monthly archive and are also fetched by script. Clarify briefly with him beforehand |
 | Long-distance trains bring delays from outside. Doesn't that bias the result? | Yes, that is why we also measure the delay increase within the study area, or control for the delay when entering the region |
-| How do you tell rain from snow? | Precipitation at a temperature ≤ 0 °C counts as snow, checked against the increase in snow depth; sleet around 0 °C as a limitation |
-| Where does the IR belong? | Team decision with justification (open DECIDE item) |
+| How do you tell rain from snow? | Hourly precipitation ≥ 0.1 mm at ≤ 0 °C counts as snow (definition 1). Validated against manually measured fresh snow (MeteoSwiss `ogd-nime`, 7 co-located stations): our definition finds 75 % of the measured snow days; sleet around 0 °C as a limitation |
+| Where does the IR belong? | Long-distance, following SBB's own definition (EC, ICE, RJX, TGV, IC, IR, RE; reporting.sbb.ch/punctuality). In the canton of Zurich, regional traffic is in practice the S-Bahn |
 | Were there enough snow days at all? | The study period was chosen from the weather data, show the number of snow days |
 | Why classification if you want a comparison? | The core answer is the effect comparison (difference of delay rates); the model adds the AUC gain from the weather variables per traffic type |
 | Accuracy is worthless for rare delays. | That is why recall, precision and ROC-AUC, baseline = share of the majority class |
