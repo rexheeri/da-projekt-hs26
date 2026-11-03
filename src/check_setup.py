@@ -11,7 +11,7 @@ import sys
 # Import names of the packages from requirements.txt
 # (import name differs from pip name for some: dotenv = python-dotenv, sklearn = scikit-learn, bs4 = beautifulsoup4)
 PACKAGES = [
-    "numpy", "pandas", "requests", "dotenv", "sqlalchemy", "psycopg2",
+    "numpy", "pandas", "requests", "dotenv", "pyarrow", "sqlalchemy", "psycopg2",
     "matplotlib", "seaborn",
     "scipy", "statsmodels", "sklearn", "geopandas", "folium",
     "pystac_client", "bs4",
