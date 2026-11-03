@@ -7,6 +7,10 @@ Two ways to get the daily files, both by script:
    use the catalogue instead.
 2. Archive (archive.opentransportdata.swiss): one ZIP per month with one CSV per
    day, from 2016 until the last full month. Needed for past winters.
+   Entry page: https://archive.opentransportdata.swiss/actual_data_archive.htm
+   ("Archived data from the Open data platform mobility Switzerland"); the file
+   list behind it is https://archive.opentransportdata.swiss/istdaten.php.
+   The archive is a plain file server (HTTPS download), not an API.
 
 Facts verified on real files (see docs/research-design.md, VERIFY results):
 - Semicolon-separated, UTF-8, 22 columns (BETRIEBSTAG ... DURCHFAHRT_TF, SLOID).
@@ -78,11 +82,14 @@ def zip_members(zip_path):
         return {name[:10]: name for name in z.namelist() if name.lower().endswith(".csv")}
 
 
-def read_day(source, stop_ids, chunksize=500_000):
+def read_day(source, stop_ids, whole_trips=False, chunksize=500_000):
     """Read one daily file and keep only train rows at the given stops.
 
-    source:   path to a CSV, or an open file object (e.g. from zipfile, no unpacking needed)
-    stop_ids: set of BPUIC strings (7 digits) of the study area
+    source:      path to a CSV, or an open file object (e.g. from zipfile, no unpacking needed)
+    stop_ids:    set of BPUIC strings (7 digits) of the study area
+    whole_trips: False -> only rows at the study-area stops.
+                 True  -> all stops of every train trip that touches the study
+                 area (needed to know the stop BEFORE the first stop in the area).
     Returns (filtered DataFrame, number of raw rows).
 
     The file is read in chunks of 500k rows, so memory stays low even for 650 MB files.
@@ -92,17 +99,24 @@ def read_day(source, stop_ids, chunksize=500_000):
                          usecols=KEEP_COLS + ["PRODUKT_ID"], chunksize=chunksize)
     for chunk in reader:
         n_raw += len(chunk)
-        # Filter early: trains only, only stops in the study area
-        mask = (chunk["PRODUKT_ID"] == "Zug") & chunk["BPUIC"].isin(stop_ids)
+        # Filter early: trains only (and, unless whole trips are needed, only study-area stops)
+        mask = chunk["PRODUKT_ID"] == "Zug"
+        if not whole_trips:
+            mask &= chunk["BPUIC"].isin(stop_ids)
         parts.append(chunk.loc[mask, KEEP_COLS])
-    return pd.concat(parts, ignore_index=True), n_raw
+    df = pd.concat(parts, ignore_index=True)
+    if whole_trips:
+        # Keep the trips with at least one stop in the study area
+        trips = set(df.loc[df["BPUIC"].isin(stop_ids), "FAHRT_BEZEICHNER"])
+        df = df[df["FAHRT_BEZEICHNER"].isin(trips)].reset_index(drop=True)
+    return df, n_raw
 
 
-def read_day_from_zip(zip_path, day, stop_ids):
+def read_day_from_zip(zip_path, day, stop_ids, whole_trips=False):
     """Read one day directly from a monthly ZIP (no unpacking to disk)."""
     member = zip_members(zip_path)[day]
     with zipfile.ZipFile(zip_path) as z, z.open(member) as f:
-        return read_day(f, stop_ids)
+        return read_day(f, stop_ids, whole_trips=whole_trips)
 
 
 if __name__ == "__main__":
