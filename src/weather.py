@@ -34,7 +34,11 @@ from src.download import download_file
 from src.paths import RAW_DIR
 
 STAC_URL = "https://data.geo.admin.ch/api/stac/v1"
-COLLECTIONS = {"smn": "ch.meteoschweiz.ogd-smn", "precip": "ch.meteoschweiz.ogd-smn-precip"}
+COLLECTIONS = {
+    "smn": "ch.meteoschweiz.ogd-smn",
+    "precip": "ch.meteoschweiz.ogd-smn-precip",
+    "nime": "ch.meteoschweiz.ogd-nime",  # manual stations: daily fresh snow, used only to validate the snow definition
+}
 WEATHER_DIR = RAW_DIR / "weather"
 
 # Parameter codes, taken from the *_meta_parameters.csv files (not guessed):
@@ -142,6 +146,36 @@ def read_hourly(stations=STATIONS, network="smn"):
         if col not in df.columns:
             df[col] = float("nan")
     return df[["station_abbr", "time_utc", "precip_mm", "temp_c", "snow_cm"]]
+
+
+def download_daily(stations, network="nime"):
+    """Download the daily files (historical + recent) of a network, e.g. the manual snow stations."""
+    prefix = COLLECTIONS[network].split(".")[-1]
+    for st in stations:
+        assets = station_assets(st, network)
+        for kind in ["d_historical", "d_recent"]:
+            name = f"{prefix}_{st.lower()}_{kind}.csv"
+            download_file(assets[name], WEATHER_DIR / "daily" / name, refresh=(kind == "d_recent"))
+
+
+def read_fresh_snow(stations, network="nime"):
+    """Daily fresh snow 'hns000d0' (cm) per station.
+
+    MeteoSwiss docs: for snow the daily value covers 06:00 UTC of that date until
+    06:00 UTC of the next day ("ReferenceTS 22.6.2023 = 22.6.2023 6:10 UTC to 23.6.2023 6:00 UTC").
+    Returns columns: station_abbr, date (the reference date), fresh_snow_cm.
+    """
+    prefix = COLLECTIONS[network].split(".")[-1]
+    frames = []
+    for st in stations:
+        for kind in ["d_historical", "d_recent"]:
+            path = WEATHER_DIR / "daily" / f"{prefix}_{st.lower()}_{kind}.csv"
+            frames.append(pd.read_csv(path, sep=";", encoding="cp1252",
+                                      usecols=["station_abbr", "reference_timestamp", "hns000d0"]))
+    df = pd.concat(frames, ignore_index=True)
+    df["date"] = pd.to_datetime(df["reference_timestamp"], format="%d.%m.%Y %H:%M").dt.strftime("%Y-%m-%d")
+    df = df.drop_duplicates(["station_abbr", "date"], keep="last")
+    return df.rename(columns={"hns000d0": "fresh_snow_cm"})[["station_abbr", "date", "fresh_snow_cm"]]
 
 
 def hours_per_month(hourly, start="2023-11-01", end="2026-04-01"):
