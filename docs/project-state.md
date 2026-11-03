@@ -41,9 +41,9 @@ Cross-cutting, each person takes a share: GitHub, AI log, slides, video.
 
 | Source | Access | Status |
 |---|---|---|
-| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | prototype day 21.10.2026 done (`src/istdaten.py`); study period pending (Checkpoint 1) |
-| MeteoSwiss Open Data – STAC API | Web API (`ch.meteoschweiz.ogd-smn`) | hourly data 2020–02.11.2026 for 18 stations (`src/weather.py`) |
-| Service point directory (stop coordinates) | download by script (`service-point-v2`) | 182 ZH train stops, nearest station computed (`src/stops.py`); table in DB in Phase 2 |
+| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | prototype week 05.–11.01.2026 in the DB: 158,986 arrivals (`src/build_db.py`); full period (15 ZIPs, 17.05 GB) waits for ER's OK |
+| MeteoSwiss Open Data – STAC API | Web API (`ogd-smn` + `ogd-smn-precip`) | 26 stations used, hourly, complete for all 15 study months (`tests/test_weather_complete.py`) |
+| Service point directory (stop coordinates) | download by script (`service-point-v2`) | 182 ZH train stops; table `stop_station` (precipitation median 3.6 km, temperature 7.4 km) |
 
 Join: stop → nearest weather station (coordinates) + timestamp. Storage in
 PostgreSQL (SQLite as fallback, same code via `src/db.py`).
@@ -118,3 +118,4 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 - 2026-11-03 ER: Claude Code brief for data collection added (`docs/claude/prompt-data-collection.md`). Phase 0 done: `.venv` set up, `check_setup` OK. Docker not installed on ER's laptop → SQLite until the PostgreSQL switch (issue "Switch to PostgreSQL (bonus)"). `pyarrow` missing in `requirements.txt` (needed for Parquet).
 - 2026-11-03 ER: concept presentation skeleton (`presentation/concept_presentation_group_03.pptx`) and checklist (`docs/concept-presentation-checklist.md`) added. Dry run moved from Sun 15.11. to Mon 16.11. (ER away 07.–15.11.), slide draft stays with LS and LK.
 - 2026-11-03 ER: data collection Phase 1 (sources explored, VERIFY results in `research-design.md`, logs). Waiting at Checkpoint 1 for the DECIDE items and the study period.
+- 2026-11-03 ER: Checkpoint 1 decisions recorded (#5, #9 closed). Phase 2 prototype end-to-end: schema, week 05.–11.01.2026 in SQLite, SQL join `analysis_base`, DST and weather tests, first EDA (preliminary). PRs #35–#38 open. Waiting at Checkpoint 2 (open: school holidays, `SN`/`RJ`, plausibility limits, rush hour definition, OK for the full download).
