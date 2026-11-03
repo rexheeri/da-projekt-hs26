@@ -123,6 +123,45 @@ def read_hourly(stations=STATIONS):
     return df[["station_abbr", "time_utc", "precip_mm", "temp_c", "snow_cm"]]
 
 
+def precip_category(precip_mm, temp_c):
+    """Classify hourly values into 'dry' / 'rain' / 'snow' (decided by ER on 2026-11-03).
+
+    dry  = 0.0 mm
+    rain = >= 0.1 mm and temperature > 0 degC
+    snow = >= 0.1 mm and temperature <= 0 degC  (simplification: sleet near 0 degC)
+    Anything else (missing precipitation or missing temperature when it rains) -> NaN.
+    Works on pandas Series (vectorised).
+    """
+    cat = pd.Series(pd.NA, index=precip_mm.index, dtype="string")
+    cat[precip_mm == 0] = "dry"
+    wet = precip_mm >= 0.1
+    cat[wet & (temp_c > 0)] = "rain"
+    cat[wet & (temp_c <= 0)] = "snow"
+    return cat
+
+
+def winter_summary(stations=("SMA", "REH", "KLO", "WAE", "TAE", "PFA"),
+                   months=(11, 12, 1, 2, 3), start="2023-11-01", end="2026-03-31"):
+    """Count dry / rain / snow hours per month, averaged over the given stations.
+
+    Used to choose the study period (issue 'find rain/snow days'). Months are
+    counted in Swiss local time, because the timetable data are local time.
+    Returns one row per month with mean hours per station: dry, rain, snow, missing.
+    """
+    h = read_hourly(list(stations))
+    local = h["time_utc"].dt.tz_convert("Europe/Zurich")
+    h = h[(local >= pd.Timestamp(start, tz="Europe/Zurich"))
+          & (local < pd.Timestamp(end, tz="Europe/Zurich") + pd.Timedelta(days=1))
+          & local.dt.month.isin(months)].copy()
+    h["month"] = h["time_utc"].dt.tz_convert("Europe/Zurich").dt.strftime("%Y-%m")
+    h["cat"] = precip_category(h["precip_mm"], h["temp_c"]).fillna("missing")
+
+    # Hours per station, month and category -> mean over stations
+    counts = h.groupby(["station_abbr", "month", "cat"]).size().unstack(fill_value=0)
+    out = counts.groupby("month").mean().round(1)
+    return out.reindex(columns=["dry", "rain", "snow", "missing"], fill_value=0)
+
+
 if __name__ == "__main__":
     download_meta()
     download_hourly()

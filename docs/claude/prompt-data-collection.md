@@ -99,7 +99,13 @@ Zurich and choose the study period», «Stops: coordinates and nearest weather s
 - Herausfinden und belegen, wie man **per Skript** an die Tagesdateien kommt:
   - aktueller Monat: CKAN-API von `data.opentransportdata.swiss` (Datensatz `istdaten`)
   - frühere Monate: Archiv `https://archive.opentransportdata.swiss/` (laut Betreiber
-    Monats-ZIPs mit Tagesdateien, ab 2016 bis zum letzten vollen Monat)
+    Monats-ZIPs mit Tagesdateien, ab 2016 bis zum letzten vollen Monat).
+    Dokumentierter Einstiegspunkt: Übersichtsseite
+    `https://archive.opentransportdata.swiss/actual_data_archive.htm`
+    (Liste aus `istdaten.php`). Dort liegen auch Fahrplan-Archive (GTFS,
+    HRDF, NeTEx): nur prüfen, nichts ohne OK herunterladen.
+  - Nachtrag 03.11.2026: Die CKAN-Action-API antwortet 403. Die Dateiliste
+    des Portals kommt aus dem DCAT-Katalog (JSON-LD).
   - URL-Muster per Skript ermitteln, Dateigrössen per HEAD-Request feststellen,
     nichts Grosses herunterladen.
 - **Einen Tag** herunterladen (über die CKAN-API), einlesen, zeigen: echte
@@ -116,6 +122,16 @@ Zurich and choose the study period», «Stops: coordinates and nearest weather s
   `https://data.geo.admin.ch/api/stac/v1`, Doku opendatadocs.meteoswiss.ch) mit
   `pystac-client`. Stationsmetadaten (Koordinaten, **Höhe**) und
   `ogd-smn_meta_parameters.csv` laden.
+- Offizieller Weg für den automatischen Download:
+  `https://opendatadocs.meteoswiss.ch/general/download#how-to-download-files-automatically`
+  (STAC-API, `If-None-Match`/ETag, Retries mit truncated exponential backoff
+  und Jitter). Historical (bis 31.12. Vorjahr) und recent (ab 01.01.) ohne
+  Lücke und ohne Doppel zusammenführen.
+- Referenz, keine Datenquelle: `https://github.com/MeteoSwiss` (opendata,
+  weathermart, PeakWeather). Fertige Datensätze höchstens als Gegencheck.
+- Weitere Sammlungen prüfen: `https://opendatadocs.meteoswiss.ch/` (A–D) und
+  `https://opendatadocs.meteoswiss.ch/c-climate-data`. Niederschlagsnetz
+  `ch.meteoschweiz.ogd-smn-precip` wird genutzt (Entscheid 03.11.2026).
 - **Parametercodes aus der Metadatei belegen, nicht raten:** stündliche
   Niederschlagssumme, Lufttemperatur 2 m, Schneehöhe.
 - Stationen im und um das Studiengebiet auflisten (Kürzel, Name, Höhe,
