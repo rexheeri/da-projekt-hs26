@@ -1,8 +1,7 @@
 # Research design
 
-Status: **draft for team decision**. Items marked **DECIDE** must be fixed by
-the team before the concept presentation. Items marked **VERIFY** are
-assumptions that the data prototype must confirm.
+Status: **decided by ER on 2026-11-03, team to confirm.** The decisions and the
+VERIFY results (checked on real data) are in section 2.
 
 ## 1. Research question
 
@@ -20,29 +19,53 @@ which the grading requires ("beyond a standard prediction").
 
 | Variable | Definition | Type | Source |
 |---|---|---|---|
-| `delayed` (target) | arrival delay ≥ 3 min (actual − scheduled arrival) | binary 0/1 | Ist-Daten |
-| `traffic_type` (group) | regional vs. long-distance, derived from the train category | binary | Ist-Daten |
-| `precip_cat` | dry / rain / snow in the hour before arrival at the nearest weather station | nominal (3) | MeteoSwiss |
+| `delayed` (target) | arrival delay ≥ 3:00 min (actual `AN_PROGNOSE` − scheduled `ANKUNFTSZEIT`) | binary 0/1 | Ist-Daten |
+| `traffic_type` (group) | regional vs. long-distance, from `VERKEHRSMITTEL_TEXT` | binary | Ist-Daten |
+| `precip_cat` | dry / rain / snow in the last full hour before the **scheduled** arrival, nearest precipitation station | nominal (3) | MeteoSwiss |
+| `precip_any` | rain or snow vs. dry (main comparison) | binary | MeteoSwiss |
 | `precip_mm` | precipitation sum in that hour | metric | MeteoSwiss |
-| `temp_c` | air temperature | metric | MeteoSwiss |
-| `hour`, `weekday`, `rush_hour`, `holiday` | control variables against confounding | nominal / binary | derived |
+| `temp_c` | air temperature 2 m, hourly mean, nearest SMN station | metric | MeteoSwiss |
+| `hour`, `weekday`, `rush_hour` | from the scheduled arrival in Swiss local time | nominal / binary | derived |
+| `holiday` | public holiday or school holiday (see open point below) | binary | derived |
+| `winter`, `month` | winter half-year (2023/24, 2024/25, 2025/26) and calendar month | nominal | derived |
+| `entry_delay`, `delay_gain` | delay at the first stop in the study area; delay increase since the previous stop of the same trip (only information known before the arrival) | metric | Ist-Daten |
 
-**DECIDE:**
-- **Threshold 3 min.** Proposal: keep it. SBB measures customer punctuality as
-  arrival less than 3 min late. **VERIFY** the source before quoting it on a
-  slide.
-- **Traffic type mapping.** Proposal: regional = S, R, RE · long-distance = IC,
-  IR, EC, ICE, TGV, RJX, EN, NJ. IR is the debatable one, so decide and justify it.
-- **Precipitation categories.** Proposal: dry = 0.0 mm in the previous hour;
-  rain = ≥ 0.1 mm and temperature > 0 °C; snow = ≥ 0.1 mm and temperature ≤ 0 °C.
-  The temperature split is a simplification (sleet near 0 °C). Name it as a
-  limitation.
-- **Cancelled trains** (`FAELLT_AUS_TF`): Proposal: exclude and report the
-  count. A cancellation is not a delay.
-- **Only measured times.** Proposal: keep rows with arrival status "REAL" only
-  and drop estimated or forecast values. **VERIFY** the column name and values.
-- **Study period.** Winter months with enough snow days in Zurich. Determine
-  it from the weather data first, then download the Ist-Daten for that period.
+### Decisions (decided by ER on 2026-11-03, team to confirm)
+
+| Item | Decision | Reason / source |
+|---|---|---|
+| Threshold | arrival delay **≥ 3:00 min** = delayed | SBB: "A train counts as on time if it reaches stations with less than 3 minutes' delay." (reporting.sbb.ch/punctuality, accessed 2026-11-03) |
+| Traffic type | **regional = S**; **long-distance = IC, IR, RE, EC, ICE, TGV, RJX, NJ**; excluded: EXT and Forchbahn S18 (coded as `Tram` in the data) | SBB counts EC, ICE, RJX, TGV, IC, IR and RE as long-distance (same source). In the canton of Zurich, "regional traffic" is in practice the **S-Bahn**: category R does not occur at ZH stops (21.10.2026: S 23,765 rows, all long-distance categories together ~1,780) |
+| Precipitation categories | dry = 0.0 mm; rain = ≥ 0.1 mm and > 0 °C; snow = ≥ 0.1 mm and ≤ 0 °C (definition 1) | snow-depth increase (definition 2) is too noisy: TAE reports increases on 17 days in Mar/Apr 2024 without a single snow hour |
+| Weather hour | last full hour **before the scheduled arrival** (scheduled time, not actual time) | using the actual time would let the delay itself choose the weather hour (leakage). MeteoSwiss hourly timestamp = end of interval, so: scheduled arrival in UTC, floored to the hour → MeteoSwiss value with that timestamp |
+| Time zone | stored in **UTC** internally; `hour` and `rush_hour` from Swiss local time | Ist-Daten are local time, MeteoSwiss is UTC (both verified) |
+| Cancellations | excluded, count reported; robustness check with cancellations counted as delayed | SBB counts short-notice cancellations as not on time |
+| Measured times only | arrivals with `AN_PROGNOSE_STATUS = REAL` only | 95.3 % of ZH arrivals on 21.10.2026 |
+| Effect measure | **absolute** risk difference in percentage points (primary), risk ratio as robustness check | intuitive for passengers; baseline rates similar (7–9 %) |
+| Weather stations | precipitation: nearest station of SMN **plus** the precipitation network `ogd-smn-precip`; temperature: nearest SMN station; summit station HOE (1133 m) excluded | median stop–station distance 7.4 km → 3.6 km, stops > 10 km: 36 → 1 |
+| Main comparison | **precipitation (rain + snow) vs. dry**; snow as a sub-analysis | snow is rare: about 93 snow hours in the whole study period (mean over 6 ZH stations). The research question stays unchanged |
+| Controls | `winter`, `month`, `holiday` (incl. school holidays), `hour`, `weekday`, `rush_hour` | three winters = three timetables and different construction work |
+| Study period | **winter half-year (Nov–Mar)** of 2023/24, 2024/25, 2025/26 (15 months, 454 days) | see below |
+
+### Study period: winter half-year (Nov–Mar) 2023/24 – 2025/26
+
+Mean hours per station (SMA, REH, KLO, WAE, TAE, PFA), Swiss local time, `src.weather.winter_summary()`:
+
+| Winter | dry | rain | snow |
+|---|---|---|---|
+| 2023/24 | 2,887 | 719 | 41.8 |
+| 2024/25 | 3,231 | 364 | 28.5 |
+| 2025/26 | 3,168 | 432 | 22.9 |
+| **Total** | **9,286** | **1,515** | **93.2** |
+
+Size: 15 monthly ZIPs from the Ist-Daten archive, **17.05 GB** (HEAD requests 2026-11-03).
+The switch to summer time (31.03.2024, 30.03.2025, 29.03.2026) lies inside the
+period: the local → UTC conversion must handle the missing hour 02:00–02:59.
+
+**Open point (holiday):** in the canton of Zurich only the Christmas school
+holidays are binding canton-wide; sports holidays (Sportferien) are set by each
+school municipality ("2 Wochen (individuell)", zh.ch/de/bildung/bildungssystem/schulferien.html).
+A single canton-wide school-holiday flag therefore does not exist. To be decided at Checkpoint 2.
 
 ### VERIFY results (2026-11-03, ER with Claude Code, checked on real files)
 
@@ -85,8 +108,8 @@ Significance level **α = 0.05** for all tests, fixed in advance.
 - **Robustness check:** also report the **relative** effect (risk ratio).
   "Stronger" in absolute terms (percentage points) and in relative terms can
   point in different directions if the baseline delay rates differ.
-  **DECIDE** which one is primary. Proposal: absolute (percentage points),
-  because it is more intuitive for passengers.
+  Decided (ER, 2026-11-03): absolute (percentage points) is primary, because
+  it is more intuitive for passengers; the risk ratio is the robustness check.
 
 ### H3: More precipitation, more delays (dose-response)
 - Aggregated per day and traffic type: daily precipitation sum vs. daily delay rate.
@@ -137,7 +160,11 @@ the data.
   optimistic. With millions of rows almost everything is "significant", so
   **effect sizes and confidence intervals matter more than p-values.** H3 on daily
   level partly addresses this.
-- **Nearest weather station ≠ weather on the line.**
+- **Nearest weather station ≠ weather on the line.** Median distance 3.6 km,
+  maximum 10.3 km (precipitation stations incl. `ogd-smn-precip`).
+- **Snow is rare** (about 93 snow hours in 15 months, on few days). Snow
+  results get wide confidence intervals, especially for long-distance traffic.
+- **Rain/snow split by temperature** is a simplification (sleet near 0 °C).
 - **Class imbalance:** delayed arrivals are the minority, so accuracy alone is
   misleading.
 - **Study period:** a few winter months in one region do not generalize to

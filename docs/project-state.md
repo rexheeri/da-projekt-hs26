@@ -31,8 +31,8 @@ Cross-cutting, each person takes a share: GitHub, AI log, slides, video.
 - **Research question:** Does the probability of a delay ≥ 3 min increase more
   strongly in regional traffic than in long-distance traffic when it rains or
   snows?
-- **Scope:** Greater Zurich area, several winter months (snow days needed).
-  Exact months depend on how far back the archives go.
+- **Scope:** canton of Zurich (182 train stops), **winter half-year (Nov–Mar)**
+  2023/24, 2024/25, 2025/26 (15 months, 454 days, 17.05 GB of Ist-Daten ZIPs).
 - **Lecturer feedback (Gellrich, reply to email of 2026-10-13):** topic and
   data "exciting and suitable", classification "suitable". Formal approval
   follows at the concept presentation on 17.11.
@@ -99,6 +99,14 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 | 2026-10-28 | Joins and aggregations in SQL (via `src/db.query`), not only pandas | PostgreSQL bonus explicitly asks for "SQL joins and aggregations from within Python" |
 | 2026-10-28 | Submission zip contains a compact data export (analysis tables + raw samples) | Moodle requires "all data"; raw Ist-Daten are too large |
 | 2026-10-28 | Ist-Daten only via scripted API download | condition for counting as own data collection |
+| 2026-11-03 | Delay = arrival ≥ 3:00 min late; only status REAL; cancellations excluded (count reported, robustness check) | SBB definition (reporting.sbb.ch/punctuality) |
+| 2026-11-03 | Regional = S; long-distance = IC, IR, RE, EC, ICE, TGV, RJX, NJ; EXT and Forchbahn S18 excluded | SBB's long-distance list; in ZH "regional" is in practice the S-Bahn |
+| 2026-11-03 | dry / rain / snow by hourly precipitation and temperature (0.0 mm; ≥ 0.1 mm and > 0 °C; ≥ 0.1 mm and ≤ 0 °C); main comparison precipitation vs. dry, snow as sub-analysis | snow is rare (~93 snow hours) |
+| 2026-11-03 | Weather hour = last full hour before the scheduled arrival; UTC internally, local time for hour/rush_hour | no leakage; verified time zones |
+| 2026-11-03 | Precipitation from SMN + `ogd-smn-precip`, temperature from SMN, HOE excluded | median distance 7.4 → 3.6 km |
+| 2026-11-03 | Effect measure: absolute (pp) primary, risk ratio as robustness check | intuitive |
+| 2026-11-03 | Study period: winter half-year (Nov–Mar) 2023/24–2025/26 | more dry/rain hours, three winters |
+| 2026-11-03 | Controls: winter, month, holiday (incl. school holidays), hour, weekday, rush_hour | confounding; school holiday definition open (Sportferien differ per municipality) |
 
 ## Change log
 
