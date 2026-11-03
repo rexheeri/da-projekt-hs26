@@ -7,6 +7,10 @@ Two ways to get the daily files, both by script:
    use the catalogue instead.
 2. Archive (archive.opentransportdata.swiss): one ZIP per month with one CSV per
    day, from 2016 until the last full month. Needed for past winters.
+   Entry page: https://archive.opentransportdata.swiss/actual_data_archive.htm
+   ("Archived data from the Open data platform mobility Switzerland"); the file
+   list behind it is https://archive.opentransportdata.swiss/istdaten.php.
+   The archive is a plain file server (HTTPS download), not an API.
 
 Facts verified on real files (see docs/research-design.md, VERIFY results):
 - Semicolon-separated, UTF-8, 22 columns (BETRIEBSTAG ... DURCHFAHRT_TF, SLOID).
