@@ -3,7 +3,7 @@
 Shared team memory. Keep it short and current. Claude reads this file in every
 session. Anything not written here is unknown in the next session.
 
-**Last updated:** 2026-10-28 (ER)
+**Last updated:** 2026-11-03 (ER)
 
 ## Group 3
 
@@ -107,3 +107,4 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 - 2026-10-28 ER: grading.md (full presentation criteria + scale), research-design.md (hypotheses), workplan.md, concept-presentation.md, onboarding.md, issue script added
 - 2026-10-28 ER: full Moodle text in grading.md (video criteria, PDF structure, zip with all data, SQL joins/aggregations)
 - 2026-10-28 ER: group number 3, GitHub handles, presentation slot added
+- 2026-11-03 ER: Claude Code brief for data collection added (`docs/claude/prompt-data-collection.md`). Phase 0 done: `.venv` set up, `check_setup` OK. Docker not installed on ER's laptop → SQLite until the PostgreSQL switch (issue "Switch to PostgreSQL (bonus)"). `pyarrow` missing in `requirements.txt` (needed for Parquet).
