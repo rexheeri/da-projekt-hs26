@@ -69,7 +69,7 @@ Everything else is a planned value. Full plan: `docs/workplan.md`, tasks: GitHub
 | 06.11. | Prototype data in the database, join tested | ☐ |
 | 08.11. | First EDA | ☐ |
 | 12.11. | Slides draft | ☐ |
-| 15.11. | Dry run with stopwatch | ☐ |
+| 16.11. | Dry run with stopwatch | ☐ |
 | 17.11. | **Concept presentation**, upload PDF to Moodle afterwards | ☐ |
 | 13.12. | Full pipeline on PostgreSQL, tests, models, map, k-means | ☐ |
 | 14.–27.12. | Buffer | – |
@@ -108,3 +108,4 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 - 2026-10-28 ER: full Moodle text in grading.md (video criteria, PDF structure, zip with all data, SQL joins/aggregations)
 - 2026-10-28 ER: group number 3, GitHub handles, presentation slot added
 - 2026-11-03 ER: Claude Code brief for data collection added (`docs/claude/prompt-data-collection.md`). Phase 0 done: `.venv` set up, `check_setup` OK. Docker not installed on ER's laptop → SQLite until the PostgreSQL switch (issue "Switch to PostgreSQL (bonus)"). `pyarrow` missing in `requirements.txt` (needed for Parquet).
+- 2026-11-03 ER: concept presentation skeleton (`presentation/concept_presentation_group_03.pptx`) and checklist (`docs/concept-presentation-checklist.md`) added. Dry run moved from Sun 15.11. to Mon 16.11. (ER away 07.–15.11.), slide draft stays with LS and LK.

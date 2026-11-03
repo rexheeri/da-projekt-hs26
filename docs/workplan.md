@@ -40,7 +40,7 @@ Goal: a convincing concept with **real data structure** and first numbers.
 | Fri 06.11. | Prototype data in the DB, stop→station→hour join works | A, B | tables in DB, join documented in the integration log |
 | Sun 08.11. | First EDA: data structure + delay rate per traffic type × weather (1–2 weeks of data) | B, C | figures for the slides |
 | Thu 12.11. | Slides draft | all | PDF draft, each person their part |
-| Sun 15.11. | **Dry run with stopwatch**, feedback with `presentation-coach` | all | ≤ 10:00, freely spoken |
+| Mon 16.11. | **Dry run with stopwatch**, feedback with `presentation-coach` | all | ≤ 10:00, freely spoken |
 | **Tue 17.11.** | **Concept presentation** 11:00, SW301 | all | upload PDF to Moodle afterwards |
 
 ## Phase 2: until submission (M2, 10.01.)

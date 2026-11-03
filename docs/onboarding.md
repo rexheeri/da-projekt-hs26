@@ -48,7 +48,7 @@ python -m src.check_setup       # must end with "Setup OK."
 ## 7. Dates in your calendar
 - [ ] **Tue 17.11.2026, 11:00–12:45, SW301 Winterthur:** concept presentation,
   **attendance mandatory**. Take the morning off work now.
-- [ ] **Sun 15.11.:** dry run (time to be agreed)
+- [ ] **Mon 16.11.:** dry run (time to be agreed)
 - [ ] **10.01.2027, 23:59:** final submission
 - [ ] Weekly 15-min sync (day/time to be agreed)
 

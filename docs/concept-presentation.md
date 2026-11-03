@@ -3,6 +3,9 @@
 10 minutes, on site, attendance mandatory for all three. Slides as PDF, upload
 to Moodle afterwards. Criteria: [grading.md](grading.md#1-concept-presentation-20-).
 
+- Checklist and grading grid: [concept-presentation-checklist.md](concept-presentation-checklist.md)
+- Slide skeleton (concept per slide in the speaker notes): [presentation/concept_presentation_group_03.pptx](../presentation/concept_presentation_group_03.pptx)
+
 ## What we present
 
 The **plan**, not results. But the plan must be backed by real data, otherwise
@@ -50,9 +53,9 @@ Plan for 9:30–9:50. On the day it always takes longer.
 
 - [ ] Real sample data loaded and structure known (columns, types, rows)
 - [ ] DECIDE items in `research-design.md` resolved
-- [ ] Slides done by Thu 12.11.
+- [ ] Slides done by Thu 12.11. (draft: LS and LK, ER is away 07.–15.11.)
 - [ ] Review with `presentation-coach` agent
-- [ ] Dry run with stopwatch on Sun 15.11., all three, ≤ 10:00
+- [ ] Dry run with stopwatch on Mon 16.11., all three, ≤ 10:00
 - [ ] Time off work on Tue 17.11. morning (all three)
 - [ ] Laptop/adapter/PDF on USB stick as backup
 - [ ] After the presentation: upload PDF to Moodle, write feedback into `project-state.md`
