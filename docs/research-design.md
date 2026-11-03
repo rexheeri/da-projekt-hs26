@@ -25,17 +25,19 @@ which the grading requires ("beyond a standard prediction").
 | `precip_any` | rain or snow vs. dry (main comparison) | binary | MeteoSwiss |
 | `precip_mm` | precipitation sum in that hour | metric | MeteoSwiss |
 | `temp_c` | air temperature 2 m, hourly mean, nearest SMN station | metric | MeteoSwiss |
-| `hour`, `weekday`, `rush_hour` | from the scheduled arrival in Swiss local time | nominal / binary | derived |
-| `holiday` | public holiday or school holiday (see open point below) | binary | derived |
+| `hour`, `weekday`, `rush_hour` | from the scheduled arrival in Swiss local time; rush hour = Mon–Fri 06:00–08:59 and 16:00–18:59 | nominal / binary | derived |
+| `holiday` | legal public holiday (ZH) or Christmas school holidays | binary | derived |
 | `winter`, `month` | winter half-year (2023/24, 2024/25, 2025/26) and calendar month | nominal | derived |
-| `entry_delay`, `delay_gain` | delay at the first stop in the study area; delay increase since the previous stop of the same trip (only information known before the arrival) | metric | Ist-Daten |
+| `prev_dep_delay_min` | departure delay at the previous stop of the same trip (known before the arrival) | metric | Ist-Daten |
+| `entry_delay_min` | departure delay at the **last stop before the study area**; NULL if the trip starts inside the area (known before every arrival in the area, tested in `tests/test_entry_delay.py`) | metric | Ist-Daten |
+| `delay_gain_min` | arrival delay here − departure delay at the previous stop. **Alternative outcome, never a model feature** (it contains the arrival delay) | metric | Ist-Daten |
 
 ### Decisions (decided by ER on 2026-11-03, team to confirm)
 
 | Item | Decision | Reason / source |
 |---|---|---|
 | Threshold | arrival delay **≥ 3:00 min** = delayed | SBB: "A train counts as on time if it reaches stations with less than 3 minutes' delay." (reporting.sbb.ch/punctuality, accessed 2026-11-03) |
-| Traffic type | **regional = S**; **long-distance = IC, IR, RE, EC, ICE, TGV, RJX, NJ**; excluded: EXT and Forchbahn S18 (coded as `Tram` in the data) | SBB counts EC, ICE, RJX, TGV, IC, IR and RE as long-distance (same source). In the canton of Zurich, "regional traffic" is in practice the **S-Bahn**: category R does not occur at ZH stops (21.10.2026: S 23,765 rows, all long-distance categories together ~1,780) |
+| Traffic type | **regional = S**; **long-distance = IC, IR, RE, EC, ICE, TGV, RJX, NJ**; plus RJ (Railjet, same family as RJX); excluded: night S-Bahn `SN`, EXT and Forchbahn S18 (coded as `Tram` in the data) | SBB counts EC, ICE, RJX, TGV, IC, IR and RE as long-distance (same source). In the canton of Zurich, "regional traffic" is in practice the **S-Bahn**: category R does not occur at ZH stops (21.10.2026: S 23,765 rows, all long-distance categories together ~1,780) |
 | Precipitation categories | dry = 0.0 mm; rain = ≥ 0.1 mm and > 0 °C; snow = ≥ 0.1 mm and ≤ 0 °C (definition 1) | snow-depth increase (definition 2) is too noisy: TAE reports increases on 17 days in Mar/Apr 2024 without a single snow hour |
 | Weather hour | last full hour **before the scheduled arrival** (scheduled time, not actual time) | using the actual time would let the delay itself choose the weather hour (leakage). MeteoSwiss hourly timestamp = end of interval, so: scheduled arrival in UTC, floored to the hour → MeteoSwiss value with that timestamp |
 | Time zone | stored in **UTC** internally; `hour` and `rush_hour` from Swiss local time | Ist-Daten are local time, MeteoSwiss is UTC (both verified) |
@@ -44,7 +46,10 @@ which the grading requires ("beyond a standard prediction").
 | Effect measure | **absolute** risk difference in percentage points (primary), risk ratio as robustness check | intuitive for passengers; baseline rates similar (7–9 %) |
 | Weather stations | precipitation: nearest station of SMN **plus** the precipitation network `ogd-smn-precip`; temperature: nearest SMN station; summit station HOE (1133 m) excluded | median stop–station distance 7.4 km → 3.6 km, stops > 10 km: 36 → 1 |
 | Main comparison | **precipitation (rain + snow) vs. dry**; snow as a sub-analysis | snow is rare: about 93 snow hours in the whole study period (mean over 6 ZH stations). The research question stays unchanged |
-| Controls | `winter`, `month`, `holiday` (incl. school holidays), `hour`, `weekday`, `rush_hour` | three winters = three timetables and different construction work |
+| Controls | `winter`, `month`, `holiday` (public holidays + Christmas school holidays), `hour`, `weekday`, `rush_hour` | three winters = three timetables and different construction work |
+| Night S-Bahn `SN` | excluded (decided 2026-11-03, Checkpoint 2) | runs only on weekend nights 00–04 h, when no long-distance trains run: night hours would exist for one group only and bias the comparison (915 rows per weekend day) |
+| Plausibility | arrival delays outside −15 … +300 min removed | data errors (e.g. −1444 min); 2 rows in the prototype week |
+| Entry delay | departure delay at the last stop before the study area, NULL if the trip starts inside | must be known before the arrival; on 08.01.2026 NULL for 59 % of regional and 18 % of long-distance arrivals |
 | Study period | **winter half-year (Nov–Mar)** of 2023/24, 2024/25, 2025/26 (15 months, 454 days) | see below |
 
 ### Study period: winter half-year (Nov–Mar) 2023/24 – 2025/26
@@ -62,10 +67,28 @@ Size: 15 monthly ZIPs from the Ist-Daten archive, **17.05 GB** (HEAD requests 20
 The switch to summer time (31.03.2024, 30.03.2025, 29.03.2026) lies inside the
 period: the local → UTC conversion must handle the missing hour 02:00–02:59.
 
-**Open point (holiday):** in the canton of Zurich only the Christmas school
-holidays are binding canton-wide; sports holidays (Sportferien) are set by each
-school municipality ("2 Wochen (individuell)", zh.ch/de/bildung/bildungssystem/schulferien.html).
-A single canton-wide school-holiday flag therefore does not exist. To be decided at Checkpoint 2.
+**Holidays (decided 2026-11-03):** `holiday` = legal public holidays of canton ZH
+(Neujahr, Karfreitag, Weihnachtstag, Stephanstag in Nov–Mar) + Christmas school
+holidays. Christmas 2025/26 is sourced (Volksschulamt); 2023/24 and 2024/25 are
+**derived from the binding canton rule** "Woche 52 und 1" (25.12.2023–06.01.2024,
+23.12.2024–04.01.2025); the rule reproduces the sourced 2025/26 dates exactly.
+
+### Validation of the snow definition (2026-11-04)
+
+Snow definition (1) checked against manually measured fresh snow (`ogd-nime`,
+`hns000d0`, 06–06 UTC) at the 7 stations where the manual and the automatic
+station are at the same place (SMA, PFA, HLL, BUS, MOA, SAG, EIN), all days of the
+study period with a reading (`src/snow_validation.py`):
+
+| | days | hits | false alarms | misses | hit rate | precision |
+|---|---|---|---|---|---|---|
+| all 7 stations | 3,161 | 144 | 78 | 48 | **75.0 %** | **64.9 %** |
+| SMA (Zurich / Fluntern) | 454 | 19 | 7 | 5 | 79.2 % | 73.1 % |
+
+Hit rate = share of measured snow days that our definition finds; precision =
+share of our snow days with measured fresh snow. Misses are mostly small (median
+1 cm). False alarms are plausibly sleet or snow that melted near 0 °C. Good enough
+for a sub-analysis; named as a limitation.
 
 ### VERIFY results (2026-11-03, ER with Claude Code, checked on real files)
 
@@ -162,6 +185,10 @@ the data.
   level partly addresses this.
 - **Nearest weather station ≠ weather on the line.** Median distance 3.6 km,
   maximum 10.3 km (precipitation stations incl. `ogd-smn-precip`).
+- **Sports holidays (Sportferien) not modelled:** each municipality sets its own
+  two weeks in February; `month` absorbs part of it.
+- **Snow definition:** finds 75 % of measured snow days, 35 % of its snow days had
+  no measurable fresh snow (validation above).
 - **Snow is rare** (about 93 snow hours in 15 months, on few days). Snow
   results get wide confidence intervals, especially for long-distance traffic.
 - **Rain/snow split by temperature** is a simplification (sleet near 0 °C).

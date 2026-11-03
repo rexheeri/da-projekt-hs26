@@ -25,7 +25,7 @@ Required for grading: document how the sources were combined – keys, joins, in
 | F3c | same | no pass-through (`DURCHFAHRT_TF`) | 163,044 | 163,001 | 43 | train does not stop |
 | F3d | same | not cancelled (`FAELLT_AUS_TF`) | 163,001 | 161,264 | 1,737 | decision ER: cancellations excluded, count reported |
 | F3e | same | `AN_PROGNOSE_STATUS = REAL` | 161,264 | 160,831 | 433 | decision ER: measured times only |
-| F3f | same | category S or long-distance list | 160,831 | 158,988 | 1,843 | 1,830 night S-Bahn `SN` (Sat/Sun 00–04 h), RJ, EXT → decision pending (Checkpoint 2) |
+| F3f | same | category S or long-distance list | 160,831 | 158,988 | 1,843 | 1,830 night S-Bahn `SN` (Sat/Sun 00–04 h): excluded, decided by ER 2026-11-03, because no long-distance trains run at that time (night hours would exist for one group only); RJ (3/day) is long-distance since Checkpoint 2; EXT excluded |
 | F3g | same | arrival delay between −15 and +300 min | 158,988 | 158,986 | 2 | implausible values (limits = proposal, Checkpoint 2) |
 | F3h | same | local → UTC conversion | 158,986 | 158,986 | 0 | no time in the spring-forward gap (`tests/test_dst.py`) |
 | F2 | Ist-Daten 21.10.2026 | `PRODUKT_ID = 'Zug'` and `BPUIC` in the 182 ZH stops, 16 of 23 columns kept | 2,583,004 | 25,549 | 2,557,455 | other modes (bus, tram …) and stops outside ZH. 156 of 182 stops have rows; the 26 missing are mostly Forchbahn S18 stops, which the data codes as `PRODUKT_ID = 'Tram'` with 9-digit BPUIC |
@@ -48,5 +48,7 @@ Required for grading: document how the sources were combined – keys, joins, in
 | 2026-11-03 | `PRODUKT_ID` has both `Bus` and `BUS` | 71,179 rows on 08.01.2026 (not trains) | irrelevant, we filter on `Zug` |
 | 2026-11-03 | Forchbahn S18 coded as `Tram` (operator FB, 9-digit BPUIC) | 26 ZH "train" stops without rows | open: proposal to exclude S18 (tram-like light rail), see Checkpoint 1 |
 | 2026-11-03 | Single extreme delays, e.g. −1444 min (08.01.2026, Switzerland-wide); one EC with BETRIEBSTAG 08.01. arriving 09.01. 09:05 | few | to handle in cleaning (Phase 2): plausibility limits |
-| 2026-11-03 | Night S-Bahn coded `SN` (not `S`), Railjet `RJ` (not `RJX`) | 1,843 rows in the week | excluded for now, decision at Checkpoint 2 |
+| 2026-11-03 | Night S-Bahn coded `SN` (not `S`), Railjet `RJ` (not `RJX`) | 1,843 rows in the week | decided by ER: `SN` excluded (night hours only in regional traffic), `RJ` = long-distance |
+| 2026-11-03 | No official Christmas school-holiday dates found for 2023/24 and 2024/25 | calendar | derived from the binding canton rule (KW 52 + KW 1), marked as derived in `src/calendar_zh.py` |
+| 2026-11-04 | Snow definition vs. measured fresh snow (`ogd-nime`, 7 co-located stations) | 3,161 station-days | hit rate 75 %, precision 65 % → definition kept, limitation named |
 | 2026-11-03 | 21.10.2026: 1,169 cancelled rows at ZH stops (4.6 %), 686 of them S10 (SZU) | 1,169 | VERIFY cause (planned construction work?) |

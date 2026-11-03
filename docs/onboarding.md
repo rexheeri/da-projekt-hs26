@@ -54,3 +54,36 @@ python -m src.check_setup       # must end with "Setup OK."
 
 ## 8. Pick your first issue
 - [ ] Assign yourself to the issues of your role in milestone **M1**
+
+## 9. Data handover (from ER, Phase 3)
+
+You do **not** need to download the raw data. ER shares the team export.
+
+1. **Where:** OneDrive/Teams, in the folder ER announces in the team chat
+   (suggested name `DA_team_export`; size and date are in `manifest.csv`).
+   It is never on GitHub.
+2. **Load it:** copy the folder to `data/export/team/` in your repo, then
+   `python -m src.load_shared data/export/team`. It replaces the tables in your
+   database (SQLite by default, PostgreSQL if `DATABASE_URL` is set).
+3. **Use it:** `from src.db import query` and
+   `df = query("SELECT * FROM analysis_base WHERE winter = :w", {"w": "2025/26"})`.
+
+What is in `analysis_base` (one row = one train arrival at a stop in canton ZH):
+
+| Column | Meaning |
+|---|---|
+| `service_date`, `trip_id`, `line`, `category` | operating day, trip, line (S8, IC1 …), category (S, IC, IR, RE …) |
+| `traffic_type` | `regional` (S-Bahn) or `long_distance` (IC, IR, RE, EC, ICE, TGV, RJX, RJ, NJ) |
+| `bpuic`, `stop_name` | stop |
+| `sched_arr_utc` | scheduled arrival, UTC (text `YYYY-MM-DD HH:MM:SS`) |
+| `arr_delay_min`, **`delayed`** | arrival delay in minutes; **target**: 1 if ≥ 3 min |
+| `prev_dep_delay_min`, `entry_delay_min` | delay known **before** the arrival (previous stop; last stop before canton ZH, NULL if the trip starts inside) → allowed as features |
+| `delay_gain_min` | delay gained since the previous stop → **outcome, never a feature** (leakage) |
+| `precip_station`, `temp_station`, `*_distance_km` | weather stations used and their distance |
+| `precip_mm`, `temp_c` | weather in the last full hour **before the scheduled arrival** |
+| `precip_cat`, `precip_any` | dry / rain / snow; precipitation yes/no (main comparison) |
+| `hour`, `weekday`, `rush_hour`, `local_date` | Swiss local time; rush hour = Mon–Fri 06–09 and 16–19 h |
+| `holiday`, `public_holiday`, `school_holiday`, `winter`, `month` | calendar controls |
+
+Unlocked issues once the data is loaded: Complete EDA (#18), map (#19),
+hypothesis tests (#20), classification (#21), k-means (#22).
