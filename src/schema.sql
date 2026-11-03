@@ -71,7 +71,9 @@ CREATE TABLE IF NOT EXISTS arrivals (
     arr_delay_min      DOUBLE PRECISION,
     delayed            INTEGER,         -- target: arrival delay >= 3 min
     prev_dep_delay_min DOUBLE PRECISION, -- known before arrival
-    entry_delay_min    DOUBLE PRECISION, -- known before arrival
+    entry_delay_min    DOUBLE PRECISION, -- departure delay at the last stop before the study area
+    entry_from_bpuic   TEXT,             -- that stop (outside the study area)
+    entry_from_time_utc TEXT,            -- its scheduled departure (always before this arrival)
     delay_gain_min     DOUBLE PRECISION, -- OUTCOME, not a feature
     weather_hour_utc   TEXT,            -- join key to weather_hourly.time_utc
     local_date         TEXT,            -- join key to calendar_days

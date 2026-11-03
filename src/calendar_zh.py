@@ -16,17 +16,24 @@ Sources (accessed 2026-11-03):
   Christmas 2025/26: Mon 22.12.2025 - Sat 03.01.2026 (Volksschulamt, "Feriendaten
   Festlegungen und Empfehlungen bis SJ 2032/2033", 26.06.2023).
 
-OPEN (Checkpoint 2, ER decides): Christmas holidays 2023/24 and 2024/25 are not yet
-backed by a source document; sports holidays differ per municipality.
+  Christmas 2023/24 and 2024/25: no official date list found online. They are
+  DERIVED FROM THE BINDING CANTON RULE "Woche 52 und 1 (verbindlich)"
+  (zh.ch Planungshilfe), i.e. Monday of ISO week 52 to Saturday of ISO week 1.
+  Check: the rule gives exactly the sourced 2025/26 dates (22.12.2025 - 03.01.2026).
+  Decided by ER on 2026-11-03.
+- Sports holidays (Sportferien) are NOT modelled: each municipality sets its own
+  two weeks (limitation, see docs/research-design.md).
 """
 import datetime as dt
 
 import pandas as pd
 from dateutil.easter import easter
 
-# Christmas school holidays (first day, last day) per winter. Only sourced entries.
+# Christmas school holidays (first day, last day) per winter.
 CHRISTMAS_SCHOOL_HOLIDAYS = {
-    "2025/26": (dt.date(2025, 12, 22), dt.date(2026, 1, 3)),
+    "2023/24": (dt.date(2023, 12, 25), dt.date(2024, 1, 6)),   # derived from the canton rule (KW52 + KW1)
+    "2024/25": (dt.date(2024, 12, 23), dt.date(2025, 1, 4)),   # derived from the canton rule (KW52 + KW1)
+    "2025/26": (dt.date(2025, 12, 22), dt.date(2026, 1, 3)),   # sourced: Volksschulamt, Feriendaten bis SJ 2032/33
 }
 
 
