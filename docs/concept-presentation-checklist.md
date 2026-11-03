@@ -1,137 +1,137 @@
-# Konzeptpräsentation DA – Checkliste und Raster
+# Concept presentation DA – checklist and grading grid
 
-Stand 03.11.2026 · ER. Teamversion der Checkliste, ergänzt `docs/concept-presentation.md`. Foliengerüst: `presentation/concept_presentation_group_03.pptx` (Konzept pro Folie in den Sprechernotizen, rot = noch nachzutragen).
+Status 03.11.2026 · ER. Team version of the checklist, complements `docs/concept-presentation.md`. Slide skeleton: `presentation/concept_presentation_group_03.pptx` (concept per slide in the speaker notes, red = still to be added).
 
-## Eckdaten
+## Key facts
 
-Wir präsentieren das **Konzept, nicht Resultate**: 10 Minuten, live vor Ort, bewertet mit 8 gleich gewichteten Kriterien. Zwei davon (frei gesprochen, Folienqualität) sind reine Form und machen zusammen 25 % der Präsentationsnote aus.
+We present the **concept, not results**: 10 minutes, live on site, graded with 8 equally weighted criteria. Two of them (freely spoken, slide quality) are purely about form and together make up 25 % of the presentation grade.
 
-| Punkt | Stand |
+| Item | Status |
 | --- | --- |
-| Termin | Di 17.11.2026, 11:00, am Anfang der Grossklasse (Slot 11:00–12:45) |
-| Ort | SW301, Winterthur |
-| Dauer | 10 Min. pro Gruppe, 3–4 Gruppen pro Vorlesung |
-| Präsenz | Pflicht vor Ort für alle drei, nur an diesem Tag |
-| Sprache | Englisch (Unterrichts- und Abgabesprache) |
-| Inhalt laut Modul | Background, Problem, Ziele, Forschungsfrage, Daten, Methoden, erwartete Resultate |
-| Folien | Als PDF auf Moodle hochladen; der Slot nennt die Frist 10.01.2027, 23:59. Wir laden direkt nach dem 17.11. hoch. |
-| Gewicht | 20 % der Modulnote |
-| Bewertung | 8 Kriterien, je Note 1–6, Durchschnitt = Präsentationsnote |
-| Nebeneffekt | Gellrich gibt das Thema hier formell frei |
-| Aufnahme | Für die Konzeptpräsentation nicht verlangt (das Video gehört zum Schlussprojekt) |
+| Date | Tue 17.11.2026, 11:00, at the beginning of the large class (slot 11:00–12:45) |
+| Room | SW301, Winterthur |
+| Duration | 10 min per group, 3–4 groups per lecture |
+| Attendance | mandatory on site for all three, only on this day |
+| Language | English (language of instruction and submission) |
+| Content according to the module | background, problem, objectives, research question, data, methods, expected results |
+| Slides | upload as PDF to Moodle; the slot states the deadline 10.01.2027, 23:59. We upload right after 17.11. |
+| Weight | 20 % of the module grade |
+| Grading | 8 criteria, each graded 1–6, average = presentation grade |
+| Side effect | Gellrich formally approves the topic here |
+| Recording | not required for the concept presentation (the video belongs to the final project) |
 
-Notenskala je Kriterium: 6 vollständig und überzeugend · 5 gut, kleine Schwächen · 4 im Wesentlichen erfüllt · 3 zentrale Elemente fehlen oder falsch · 2 nur fragmentarisch · 1 nicht erfüllt.
+Grading scale per criterion: 6 complete and convincing · 5 good, minor weaknesses · 4 fulfilled in its essential aspects · 3 key elements missing or wrong · 2 only fragments · 1 not fulfilled.
 
-## Bewertungsraster: was pro Kriterium rein muss
+## Grading grid: what each criterion needs
 
-Jedes Kriterium zählt 12,5 %. Die Spalte «Moodle prüft» ist der Originalwortlaut, die Spalte daneben übersetzt ihn in konkrete Folieninhalte für unser Thema.
+Each criterion counts 12.5 %. The column "Moodle checks" is the original wording, the column next to it translates it into concrete slide content for our topic.
 
-| # | Kriterium | Moodle prüft | Muss konkret auf die Folien | Folie |
+| # | Criterion | Moodle checks | Must be on the slides | Slide |
 | --- | --- | --- | --- | --- |
-| 1 | Structure & outline | Gliederung gezeigt und eingehalten? Roter Faden? Teile ausgewogen? Titel klar? Namen aller Studierenden? | Titel als Frage oder Aussage, alle drei Namen, Modul, Datum · Gliederung mit 5–6 Punkten, die wir exakt so abarbeiten · Foliennummern · Zeit pro Teil ungefähr gleich | 1, 2, 12 |
-| 2 | Background & problem | Kontext klar? Problem überzeugend motiviert? | Warum Pünktlichkeit zählt (Pendler, SBB-Definition «< 3 Min.» mit Quelle) · Zürich als Knoten · Wetter als bekannter Störfaktor · die Lücke: Reagiert der Regionalverkehr stärker als der Fernverkehr? · wem die Antwort nützt (Fahrplanreserven, Kundeninformation) | 3, 4 |
-| 3 | Objective & research question | Klar definiert? | Forschungsfrage wörtlich · Ziel in einem Satz · Abgrenzung: Region, Zeitraum, nur Bahn · Hypothesen H1–H3 als H0/H1, α = 0.05 | 5, 6 |
-| 4 | Data | Quelle gezeigt? Struktur der Daten erklärt? | Drei Quellen mit Name und URL (Ist-Daten, MeteoSchweiz STAC, Haltestellenverzeichnis) · Zugriff per Skript/API · Zeitraum und Volumen · **echte Stichprobe**: Schlüsselspalten mit Typ, Zeilenzahlen · wie die Quellen zusammenhängen (Haltestelle → nächste Station → Stunde) als ER-Skizze · PostgreSQL | 7, 8 |
-| 5 | Methods | Passend zur Forschungsfrage? Korrekt beschrieben und begründet? | Pipeline-Diagramm API → DB → EDA → Tests → Klassifikation · pro Methode ein Satz *warum*: Chi² je Verkehrsart, Differenz der Verspätungsquoten (Kern der Vergleichsfrage), Classification Tree und Random Forest mit und ohne Wetter, Recall/ROC-AUC wegen Klassenungleichgewicht · Kontrollvariablen (Stunde, Wochentag) · wie wir die mitgebrachte Verspätung des Fernverkehrs behandeln | 9 |
-| 6 | Expected results | Plausibel? Zurück auf die Forschungsfrage bezogen? | Pro Hypothese: was wir erwarten und warum · ausdrücklicher Bezug zur Forschungsfrage · mögliches Gegenresultat · ein bis zwei Limitationen (Korrelation ≠ Kausalität, nächste Station ≠ Wetter auf der Strecke) | 10, 11 |
-| 7 | Language | Frei gesprochen? | Kein Ablesen von Folie oder Papier, höchstens Stichwortkarten · saubere Übergabe zwischen den Sprechern · jeder übt seinen Teil mindestens 3× laut | alle |
-| 8 | Quality of the presentation | Grafiken, Tabellen, Folien nach wissenschaftlichem Standard? | Folientitel = Aussage · jede Grafik mit Achsen, Einheiten, n und Quelle · Quellen auf der Folie, Liste am Schluss · Regional und Fernverkehr immer in derselben Farbe · Schrift ≥ 18 pt · keine ganzen Sätze | alle |
+| 1 | Structure & outline | Outline shown and followed? Clear thread? Parts balanced? Title clear? Names of all students? | Title as a question or claim, all three names, module, date · outline with 5–6 points that we follow exactly · slide numbers · roughly equal time per part | 1, 2, 12 |
+| 2 | Background & problem | Context clear? Problem convincingly motivated? | Why punctuality matters (commuters, SBB definition "< 3 min" with source) · Zurich as a hub · weather as a known disruption factor · the gap: does regional traffic react more strongly than long-distance traffic? · who benefits from the answer (timetable buffers, passenger information) | 3, 4 |
+| 3 | Objective & research question | Clearly defined? | Research question word for word · objective in one sentence · scope: region, period, rail only · hypotheses H1–H3 as H0/H1, α = 0.05 | 5, 6 |
+| 4 | Data | Source shown? Structure of the data explained? | Three sources with name and URL (Ist-Daten, MeteoSwiss STAC, service point directory) · access by script/API · period and volume · **real sample**: key columns with type, row counts · how the sources connect (stop → nearest station → hour) as an ER sketch · PostgreSQL | 7, 8 |
+| 5 | Methods | Appropriate for the research question? Correctly described and justified? | Pipeline diagram API → DB → EDA → tests → classification · one sentence *why* per method: Chi² per traffic type, difference of delay rates (core of the comparison question), classification tree and random forest with and without weather, recall/ROC-AUC because of class imbalance · control variables (hour, weekday) · how we handle the delay that long-distance trains bring into the region | 9 |
+| 6 | Expected results | Plausible? Linked back to the research question? | Per hypothesis: what we expect and why · explicit link to the research question · possible counter-result · one or two limitations (correlation ≠ causation, nearest station ≠ weather on the line) | 10, 11 |
+| 7 | Language | Freely spoken? | No reading from slides or paper, cue cards at most · clean handovers between speakers · everyone rehearses their part at least 3× out loud | all |
+| 8 | Quality of the presentation | Graphics, tables, slides according to scientific standards? | Slide title = finding · every chart with axes, units, n and source · sources on the slide, list at the end · regional and long-distance always in the same colour · font ≥ 18 pt · no full sentences | all |
 
-Kriterium 4 ist der Grund, warum wir bis zum 17.11. echte Stichprobendaten brauchen. Ohne sie bleibt «Struktur der Daten erklärt» eine Behauptung.
+Criterion 4 is the reason why we need real sample data by 17.11. Without it, "structure of the data explained" remains a claim.
 
-## Folienplan
+## Slide plan
 
-12 Folien, Ziel 9:30–9:50, gut 3:15 pro Person. Basis ist `docs/concept-presentation.md`, ergänzt um die Behandlung des Fernverkehr-Bias auf Folie 9. Die Sprecher 1–3 werden im Teamcall zugeteilt.
+12 slides, target 9:30–9:50, a good 3:15 per person. Based on `docs/concept-presentation.md`, plus the handling of the long-distance bias on slide 9. Speakers 1–3 are assigned in the team call.
 
-| # | Folie | Inhalt | Kriterium | Zeit | Sprecher |
+| # | Slide | Content | Criterion | Time | Speaker |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Title | Titel als Frage oder Aussage, alle drei Namen, Modul, Datum | 1 | 0:15 | 1 |
-| 2 | Outline | 5–6 Punkte, genau so abgearbeitet | 1 | 0:15 | 1 |
-| 3 | Background | Pünktlichkeit, SBB-Definition 3 Min. (Quelle), Zürich als Knoten, Wetter als Störfaktor | 2 | 0:50 | 1 |
-| 4 | Problem | Lücke: Ist der Regionalverkehr wetteranfälliger? Warum das zählt | 2 | 0:40 | 1 |
-| 5 | Objective & RQ | Forschungsfrage wörtlich, Ziel in einem Satz, Abgrenzung | 3 | 0:40 | 2 |
-| 6 | Hypotheses | H1–H3 als H0/H1, α = 0.05 | 3, 5 | 0:50 | 2 |
-| 7 | Data sources | 3 Quellen mit URL, Zugriff per Skript/API, Zeitraum, Volumen | 4 | 0:45 | 2 |
-| 8 | Data structure | Echte Stichprobe: Spalten, Typen, Zeilen, ER-Skizze, Join-Logik | 4 | 1:15 | 2 |
-| 9 | Methods | Pipeline-Diagramm, je Methode ein *warum*, Kontrollvariablen, Umgang mit mitgebrachter Verspätung | 5 | 1:20 | 3 |
-| 10 | First look *(preliminary)* | Eine Grafik: Verspätungsquote je Verkehrsart × trocken/Regen/Schnee, «preliminary, n = …» | 4, 6 | 0:45 | 3 |
-| 11 | Expected results | Pro Hypothese Erwartung und Begründung, Bezug zur RQ, Limitation | 6 | 0:55 | 3 |
-| 12 | Next steps | Zeitplan bis 10.01., GitHub-URL | 1 | 0:20 | 3 |
+| 1 | Title | Title as a question or claim, all three names, module, date | 1 | 0:15 | 1 |
+| 2 | Outline | 5–6 points, followed exactly | 1 | 0:15 | 1 |
+| 3 | Background | Punctuality, SBB definition 3 min (source), Zurich as a hub, weather as a disruption factor | 2 | 0:50 | 1 |
+| 4 | Problem | Gap: is regional traffic more sensitive to weather? Why that matters | 2 | 0:40 | 1 |
+| 5 | Objective & RQ | Research question word for word, objective in one sentence, scope | 3 | 0:40 | 2 |
+| 6 | Hypotheses | H1–H3 as H0/H1, α = 0.05 | 3, 5 | 0:50 | 2 |
+| 7 | Data sources | 3 sources with URL, access by script/API, period, volume | 4 | 0:45 | 2 |
+| 8 | Data structure | Real sample: columns, types, rows, ER sketch, join logic | 4 | 1:15 | 2 |
+| 9 | Methods | Pipeline diagram, one *why* per method, control variables, handling of the delay brought in | 5 | 1:20 | 3 |
+| 10 | First look *(preliminary)* | One chart: delay rate per traffic type × dry/rain/snow, "preliminary, n = …" | 4, 6 | 0:45 | 3 |
+| 11 | Expected results | Expectation and reasoning per hypothesis, link to the RQ, limitation | 6 | 0:55 | 3 |
+| 12 | Next steps | Timeline to 10.01., GitHub URL | 1 | 0:20 | 3 |
 |  | **Total** |  |  | **~9:50** |  |
 
-Folie 10 ist optional. Fehlen bis 12.11. belastbare Zahlen, fällt sie weg und Folie 8 bekommt die Zeit.
+Slide 10 is optional. If there are no reliable numbers by 12.11., it is dropped and slide 8 gets the time.
 
-## Pflichtelemente und Formalien
+## Required elements and formalities
 
-Abhaken, bevor das PDF als fertig gilt.
+Tick off before the PDF counts as finished.
 
-**Inhalt**
+**Content**
 
-- [ ] Titel und **alle drei Namen** auf Folie 1
-- [ ] Gliederung auf Folie 2, Reihenfolge der Folien stimmt damit überein
-- [ ] Forschungsfrage wörtlich, identisch auf Folie 5 und Folie 11
-- [ ] Alle drei Datenquellen mit Name, URL und Zugriffsart
-- [ ] Echte Datenstruktur: Spalten, Typen, Zeilenzahlen aus der Stichprobe
-- [ ] Join-Logik sichtbar (Haltestelle → nächste Wetterstation → Stunde)
-- [ ] Jede Methode mit einem Satz Begründung
-- [ ] Erwartete Resultate je Hypothese, mit Bezug zur Forschungsfrage
-- [ ] Mindestens eine Limitation genannt
-- [ ] GitHub-URL auf der letzten Folie
+- [ ] Title and **all three names** on slide 1
+- [ ] Outline on slide 2, the order of the slides matches it
+- [ ] Research question word for word, identical on slide 5 and slide 11
+- [ ] All three data sources with name, URL and type of access
+- [ ] Real data structure: columns, types, row counts from the sample
+- [ ] Join logic visible (stop → nearest weather station → hour)
+- [ ] Every method with one sentence of justification
+- [ ] Expected results per hypothesis, linked to the research question
+- [ ] At least one limitation named
+- [ ] GitHub URL on the last slide
 
 **Form**
 
-- [ ] Foliennummern auf jeder Folie
-- [ ] Folientitel formulieren die Aussage, nicht das Thema
-- [ ] Jede Grafik: Titel, Achsen mit Einheit, n, Quelle
-- [ ] Jede fremde Zahl mit Quelle auf der Folie, Quellenliste am Schluss
-- [ ] Regional- und Fernverkehr überall in denselben zwei Farben
-- [ ] Schrift mindestens 18 pt, keine ganzen Sätze
-- [ ] Englisch durchgehend, Begriffe einheitlich («regional», «long-distance»)
-- [ ] PDF exportiert, Dateiname mit Gruppe 03
+- [ ] Slide numbers on every slide
+- [ ] Slide titles state the finding, not the topic
+- [ ] Every chart: title, axes with unit, n, source
+- [ ] Every external number with its source on the slide, list of sources at the end
+- [ ] Regional and long-distance traffic in the same two colours everywhere
+- [ ] Font at least 18 pt, no full sentences
+- [ ] English throughout, consistent terms ("regional", "long-distance")
+- [ ] PDF exported, file name with group 03
 
-**Vortrag**
+**Talk**
 
-- [ ] Gesamtzeit im Probelauf höchstens 10:00
-- [ ] Jeder spricht frei, höchstens Stichwortkarten
-- [ ] Übergaben zwischen den Sprechern eingeübt
+- [ ] Total time in the dry run at most 10:00
+- [ ] Everyone speaks freely, cue cards at most
+- [ ] Handovers between speakers rehearsed
 
-## Was nicht hineingehört
+## What does not belong on the slides
 
-- **Fertige Resultate oder Schlussfolgerungen.** Bewertet wird das Konzept. Vorläufige Zahlen nur als «preliminary» mit n.
-- **Code und Notebooks.** Kein Code-Screenshot, ausser er erklärt die Datenstruktur besser als eine Tabelle.
-- **Modellnamen ohne Begründung.** «Random Forest» allein ist kein Methodenteil, das *warum* gibt die Note.
-- **Textfolien zum Ablesen.** Sie kosten Kriterium 7 und 8 gleichzeitig.
-- **Behauptungen ohne Quelle**, etwa die SBB-Definition der Pünktlichkeit.
-- **Mehr als 12 Folien.** Bei 10 Minuten geht jede zusätzliche Folie von der Zeit für Daten und Methoden ab.
+- **Finished results or conclusions.** The concept is graded. Preliminary numbers only as "preliminary" with n.
+- **Code and notebooks.** No code screenshot, unless it explains the data structure better than a table.
+- **Model names without justification.** "Random forest" alone is not a methods section; the *why* earns the grade.
+- **Text slides to read out.** They cost criterion 7 and 8 at the same time.
+- **Claims without a source**, e.g. the SBB definition of punctuality.
+- **More than 12 slides.** With 10 minutes, every extra slide takes time away from data and methods.
 
-## Kritische Fragen mit Antwortstichworten
+## Critical questions with answer keywords
 
-Gellrich gibt das Thema an der Präsentation formell frei. Diese Fragen sind am wahrscheinlichsten. Jeder kennt die Antworten zu seinem Teil.
+Gellrich formally approves the topic at the presentation. These questions are the most likely. Everyone knows the answers for their own part.
 
-| Frage | Antwortstichworte |
+| Question | Answer keywords |
 | --- | --- |
-| Warum genau 3 Minuten? | SBB-Definition der Kundenpünktlichkeit (Quelle zeigen), binäres Ziel für die Klassifikation |
-| Ist der Archiv-Download eigene Datenerhebung? | Gellrich hat den Skript-Download der Tagesdateien als eigene Erhebung bestätigt; die Winterdaten liegen im offiziellen Monatsarchiv und werden ebenfalls per Skript geholt. Vorher kurz mit ihm klären |
-| Der Fernverkehr bringt Verspätung von ausserhalb mit. Verzerrt das nicht? | Ja, darum messen wir zusätzlich die Verspätungszunahme im Studiengebiet bzw. kontrollieren die Verspätung bei Einfahrt in die Region |
-| Wie unterscheidet ihr Regen und Schnee? | Niederschlag bei Temperatur ≤ 0 °C als Schnee, geprüft gegen die Zunahme der Schneehöhe; Schneeregen um 0 °C als Limitation |
-| Wohin gehört der IR? | Entscheid im Team mit Begründung (offener DECIDE-Punkt) |
-| Gab es überhaupt genug Schneetage? | Studienzeitraum wurde aus den Wetterdaten gewählt, Anzahl Schneetage zeigen |
-| Warum Klassifikation, wenn ihr einen Vergleich wollt? | Kernantwort ist der Effektvergleich (Differenz der Verspätungsquoten); das Modell ergänzt: AUC-Gewinn durch Wettervariablen je Verkehrsart |
-| Accuracy ist bei seltenen Verspätungen wertlos. | Darum Recall, Precision und ROC-AUC, Baseline = Anteil der Mehrheitsklasse |
-| Bei Millionen Zeilen ist alles signifikant. | Effektgrössen und Konfidenzintervalle zählen mehr als p-Werte; H3 auf Tagesebene |
-| Ist das nicht nur der Berufsverkehr? | Stunde, Wochentag und Ferien als Kontrollvariablen |
-| Wie gross sind die Daten? | Zeilen roh und gefiltert, Speicherbedarf, Zeitraum aus der Pipeline |
-| Nächste Wetterstation = Wetter auf der Strecke? | Nein, Distanzen zeigen (Median, Maximum), als Limitation nennen |
+| Why exactly 3 minutes? | SBB definition of customer punctuality (show the source), binary target for the classification |
+| Does the archive download count as own data collection? | Gellrich confirmed the scripted download of the daily files as own data collection; the winter data are in the official monthly archive and are also fetched by script. Clarify briefly with him beforehand |
+| Long-distance trains bring delays from outside. Doesn't that bias the result? | Yes, that is why we also measure the delay increase within the study area, or control for the delay when entering the region |
+| How do you tell rain from snow? | Precipitation at a temperature ≤ 0 °C counts as snow, checked against the increase in snow depth; sleet around 0 °C as a limitation |
+| Where does the IR belong? | Team decision with justification (open DECIDE item) |
+| Were there enough snow days at all? | The study period was chosen from the weather data, show the number of snow days |
+| Why classification if you want a comparison? | The core answer is the effect comparison (difference of delay rates); the model adds the AUC gain from the weather variables per traffic type |
+| Accuracy is worthless for rare delays. | That is why recall, precision and ROC-AUC, baseline = share of the majority class |
+| With millions of rows everything is significant. | Effect sizes and confidence intervals matter more than p-values; H3 on the daily level |
+| Isn't this just rush-hour traffic? | Hour, weekday and holidays as control variables |
+| How big are the data? | Rows raw and filtered, storage, period from the pipeline |
+| Nearest weather station = weather on the line? | No, show the distances (median, maximum), name it as a limitation |
 
-## Vorbereitung bis 17.11.
+## Preparation until 17.11.
 
-ER ist vom 07. bis 15.11. nicht verfügbar. Deshalb verschiebt sich der Probelauf auf Mo 16.11., und LS und LK tragen den Folienentwurf.
+ER is not available from 07. to 15.11. Therefore the dry run moves to Mon 16.11., and LS and LK carry the slide draft.
 
-- [ ] Bis Do 05.11.: Teamcall, Rollen und Sprecher 1–3 zugeteilt
-- [ ] Bis Fr 06.11.: Stichprobendaten in der DB, DECIDE-Punkte entschieden, Methodenteil (Folien 6, 9, 11) als Entwurf
-- [ ] Bis Do 12.11.: Folienentwurf komplett, Grafik für Folie 10 oder Entscheid, sie wegzulassen
-- [ ] So 15.11.: Review mit dem `presentation-coach`-Agenten
-- [ ] Mo 16.11.: Probelauf mit Stoppuhr, alle drei, höchstens 10:00, danach Folien korrigieren
-- [ ] Vormittag 17.11. bei der Arbeit frei genommen (alle drei)
-- [ ] Am 17.11. dabei: Laptop, Adapter, PDF auf USB-Stick als Reserve
-- [ ] Nach der Präsentation: PDF auf Moodle hochladen, Feedback in `docs/project-state.md` eintragen
+- [ ] By Thu 05.11.: team call, roles and speakers 1–3 assigned
+- [ ] By Fri 06.11.: sample data in the DB, DECIDE items decided, methods part (slides 6, 9, 11) as a draft
+- [ ] By Thu 12.11.: slide draft complete, chart for slide 10 or decision to drop it
+- [ ] Sun 15.11.: review with the `presentation-coach` agent
+- [ ] Mon 16.11.: dry run with stopwatch, all three, at most 10:00, then correct the slides
+- [ ] Morning of 17.11. taken off work (all three)
+- [ ] On 17.11.: laptop, adapter, PDF on a USB stick as backup
+- [ ] After the presentation: upload the PDF to Moodle, write the feedback into `docs/project-state.md`
