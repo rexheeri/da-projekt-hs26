@@ -74,6 +74,11 @@ def log_counts(step, counts):
 
 def build_static():
     """Steps 2-4: stops, stations, weather, calendar (small, rebuilt every run)."""
+    # Source files needed before anything else (skipped if present; found missing in
+    # the fresh-clone test, where nothing had been downloaded before)
+    st.download_service_points()
+    wx.download_meta("smn")
+    wx.download_meta("precip")
     stops = st.load_train_stops()
     stations = st.weather_stations()
     stop_station = st.stop_station_table(stops, stations)
