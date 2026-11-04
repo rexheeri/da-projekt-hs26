@@ -1,8 +1,9 @@
 """Team export: the database tables as Parquet files, so that the whole team can
 work with the same data without running the full download (17 GB) themselves.
 
-The export does NOT go to GitHub (data are never committed). ER puts the folder
-into OneDrive/Teams; the others load it with `python -m src.load_shared <folder>`.
+The export is never committed to the repo. It is attached as files to a GitHub
+release (data-v1, data-v2, ...; see docs/data-releases.md); the others load it
+with `python -m src.load_shared --release <tag>`.
 
 Usage (from the repo root):
     python -m src.export_shared                 # -> data/export/team/

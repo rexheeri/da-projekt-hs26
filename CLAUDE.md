@@ -127,6 +127,10 @@ die Folgen für die Bewertung.
   including Claude Code, also for small doc changes.
 - PRs schliessen ihr Issue mit «Closes #nr». Gemergt wird erst nach dem OK der
   verantwortlichen Person.
+- **Slides:** presentation/*.pptx is a binary file and cannot be merged. Only
+  one person edits it at a time: announce it in issue #13, git pull before,
+  commit and push right after, then release it in the issue. Export a PDF next
+  to it at each milestone.
 - Kleine Commits mit klarer englischer Message. Kein `git push --force`, kein
   `git reset --hard`, keine gelöschten Branches.
 - Nie pushen: Rohdaten, `data/processed/`, Datenbankdateien, Parquet, ZIP,
