@@ -121,9 +121,17 @@ die Folgen für die Bewertung.
   Neuaufbau.
 - Vor dem Commit Notebook-Outputs löschen, ausser bei Grafiken, die bewusst
   sichtbar bleiben sollen.
+- **Git workflow:** 1. `git pull` before starting. 2. Work on your own branch
+  (`<issue-nr>-<short-name>`), never directly on main. 3. Open a PR; merge to
+  main only when it works and has been checked. This applies to everyone,
+  including Claude Code, also for small doc changes.
+- PRs schliessen ihr Issue mit «Closes #nr». Gemergt wird erst nach dem OK der
+  verantwortlichen Person.
 - Kleine Commits mit klarer englischer Message. Kein `git push --force`, kein
-  `git reset --hard` auf `main`.
-- Vor Arbeitsbeginn `git pull`.
+  `git reset --hard`, keine gelöschten Branches.
+- Nie pushen: Rohdaten, `data/processed/`, Datenbankdateien, Parquet, ZIP,
+  `.env`, `CLAUDE.local.md`, `settings.local.json`. Vor jedem Push `git status`
+  und `git diff --stat origin/main` prüfen; Dateien über 5 MB melden.
 
 ## 6. Pflicht-Dokumentation — sofort, nicht am Schluss
 

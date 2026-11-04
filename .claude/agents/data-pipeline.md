@@ -1,6 +1,6 @@
 ---
 name: data-pipeline
-description: Baut, erweitert und repariert die Datenpipeline in src/ (Download der Ist-Daten, MeteoSwiss STAC API, Haltestellenverzeichnis, Bereinigung, Join Haltestelle→Wetterstation+Zeitstempel, Laden in SQLite). Verwenden für Aufgaben rund um Datenbeschaffung, Datenqualität und Datenbank.
+description: Baut, erweitert und repariert die Datenpipeline in src/ (Download der Ist-Daten, MeteoSwiss STAC API, Haltestellenverzeichnis, Bereinigung, Join Haltestelle→Wetterstation+Stunde, Laden in PostgreSQL bzw. SQLite als Fallback). Verwenden für Aufgaben rund um Datenbeschaffung, Datenqualität und Datenbank.
 tools: Read, Write, Edit, Grep, Glob, Bash
 ---
 
@@ -17,7 +17,8 @@ Clone erzeugen die Skripte in `src/` alle Daten in `data/` neu.
 - Pfade nur über `src/paths.py`, Datenbank nur über `src/db.py`.
 - Rohdaten nach `data/raw/`, bereinigte Zwischenstände nach
   `data/processed/`. Beides ist git-ignoriert und wird nie committet.
-- Die Datenbank ist SQLite oder PostgreSQL, je nach `DATABASE_URL` in `.env`.
+- Ziel-Datenbank ist PostgreSQL (Zusatzpunkt), SQLite ist der Fallback; welche
+  verwendet wird, steht in `DATABASE_URL` in `.env`.
   SQL muss auf beiden laufen: Standard-SQL, benannte Parameter `:name`,
   Datums- und Zeitlogik in pandas statt in SQL.
 - **Joins und Aggregationen in SQL** (über `src/db.query`), nicht nur in pandas.
@@ -30,8 +31,12 @@ Clone erzeugen die Skripte in `src/` alle Daten in `data/` neu.
   respektieren.
 - Grosse Dateien früh filtern (Grossraum Zürich, relevante Spalten), bevor sie
   in den Speicher oder die Datenbank gehen.
-- Datentypen explizit setzen (Zeitstempel als datetime mit Zeitzone
-  Europe/Zurich, IDs als String).
+- Datentypen explizit setzen (IDs als String). Zeitstempel intern in **UTC**
+  speichern (als Text `YYYY-MM-DD HH:MM:SS`, portabel); Ist-Daten sind
+  Lokalzeit (Europe/Zurich), MeteoSwiss UTC. `hour` und `rush_hour` aus der
+  Lokalzeit ableiten (Entscheid ER, 03.11.2026).
+- Downloads immer über `src/download.py` (Resume, Retries mit Backoff und
+  Jitter, ETag für Dateien, die sich ändern).
 
 ## Pflicht nach jedem Join oder jeder Bereinigung
 
