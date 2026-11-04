@@ -3,7 +3,7 @@
 Shared team memory. Keep it short and current. Claude reads this file in every
 session. Anything not written here is unknown in the next session.
 
-**Last updated:** 2026-11-03 (ER)
+**Last updated:** 2026-11-04 (ER)
 
 ## Group 3
 
@@ -41,7 +41,7 @@ Cross-cutting, each person takes a share: GitHub, AI log, slides, video.
 
 | Source | Access | Status |
 |---|---|---|
-| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | **done** for 450 of 454 days: 10,104,173 arrivals in `analysis_base` (SQLite, 5.0 GB); 28.–31.01.2025 missing (Deflate64, open) |
+| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | **done** for 450 of 454 days: 10,104,173 arrivals in `analysis_base` (SQLite, 5.0 GB); 28.–31.01.2025 missing (Deflate64, open). Team export → GitHub release `data-v1` (draft, `docs/data-releases.md`) |
 | MeteoSwiss Open Data – STAC API | Web API (`ogd-smn` + `ogd-smn-precip`) | 26 stations used, hourly, complete for all 15 study months (`tests/test_weather_complete.py`) |
 | Service point directory (stop coordinates) | download by script (`service-point-v2`) | 182 ZH train stops; table `stop_station` (precipitation median 3.6 km, temperature 7.4 km) |
 
@@ -111,6 +111,20 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 | 2026-11-03 | Night S-Bahn `SN` excluded; `RJ` = long-distance; delays outside −15 … +300 min removed | night hours exist only for regional traffic; data errors |
 | 2026-11-03 | `entry_delay_min` = departure delay at the last stop before the area (NULL if the trip starts inside); `delay_gain_min` = outcome, never a feature | no leakage (tested) |
 | 2026-11-03 | Raw ZIPs kept until after submission; `analysis_base` as table built by SQL | reproducibility; SQL join provable and fast |
+| 2026-11-04 | Effect measure stays as decided on 03.11. (absolute pp primary, risk ratio robustness), not changed after seeing the data | decided before the data; switching now would be choosing the measure by the result |
+| 2026-11-04 | `entry_delay_min` usable as a control for long-distance traffic only | NULL for 60.3 % of regional arrivals (trip starts inside ZH); open point in #20 |
+| 2026-11-04 | Team data shared as GitHub release (`data-v1`, `data-v2`, … old ones stay), never committed; GitHub is the only thing LS/LK need | one place for code, docs, slides and data; terms of both sources allow publishing derived data with citation (`docs/data-releases.md`) |
+| 2026-11-04 | Slides (`presentation/*.pptx`): one editor at a time, announced in #13, PDF export at each milestone | binary file, cannot be merged |
+| 2026-11-04 | Phase 4 (PostgreSQL, submission export) starts on 18.11. at the earliest | concept presentation first |
+
+## Findings (preliminary)
+
+Descriptive only, no tests, no controls. For the slide "Expected results" and
+for the stats role (#20).
+
+| Date | Finding | Note |
+|---|---|---|
+| 2026-11-04 | Delay rate precipitation vs. dry (full period, 10.1 M arrivals): regional 4.1 % → 8.5 % (**+5.1 pp**, ratio **2.24**); long-distance 7.1 % → 12.6 % (**+6.3 pp**, ratio **1.88**) | The **absolute** difference is larger in long-distance traffic, the **relative** one in regional traffic. The effect measure (absolute primary) was fixed on 03.11., **before** the data was seen; the risk ratio is reported as robustness check. |
 
 ## Change log
 
@@ -124,3 +138,4 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 - 2026-11-03 ER: data collection Phase 1 (sources explored, VERIFY results in `research-design.md`, logs). Waiting at Checkpoint 1 for the DECIDE items and the study period.
 - 2026-11-03 ER: Checkpoint 1 decisions recorded (#5, #9 closed). Phase 2 prototype end-to-end: schema, week 05.–11.01.2026 in SQLite, SQL join `analysis_base`, DST and weather tests, first EDA (preliminary). PRs #35–#38 open. Waiting at Checkpoint 2 (open: school holidays, `SN`/`RJ`, plausibility limits, rush hour definition, OK for the full download).
 - 2026-11-04 ER: Checkpoint 2 decisions recorded (SN excluded, RJ long-distance, holidays, rush hour, plausibility, entry_delay before the area). Phase 3 full build done in 62 min: 450/454 days, 10.1 million arrivals, quality report, tests pass, snow definition validated (hit rate 75 %), team export 78 MB (Parquet, OneDrive/Teams, not on GitHub). Waiting at Checkpoint 3 (open: Deflate64 package for 4 days).
+- 2026-11-04 ER: Checkpoint 3 decisions recorded. PRs #40–#42 merged. Effect measure confirmed (absolute primary), finding in "Findings (preliminary)". `entry_delay_min` only for long-distance traffic (#20). Data shared via GitHub release (terms of both sources checked, `docs/data-releases.md`), `load_shared --release`, onboarding "Get the data in 2 steps", slide editing rule (#13). Deflate64: `zipfile-deflate64` cannot be installed on Python 3.13/Windows; `inflate64` tested, waiting for ER. Phase 4 from 18.11.

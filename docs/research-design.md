@@ -29,7 +29,7 @@ which the grading requires ("beyond a standard prediction").
 | `holiday` | legal public holiday (ZH) or Christmas school holidays | binary | derived |
 | `winter`, `month` | winter half-year (2023/24, 2024/25, 2025/26) and calendar month | nominal | derived |
 | `prev_dep_delay_min` | departure delay at the previous stop of the same trip (known before the arrival) | metric | Ist-Daten |
-| `entry_delay_min` | departure delay at the **last stop before the study area**; NULL if the trip starts inside the area (known before every arrival in the area, tested in `tests/test_entry_delay.py`) | metric | Ist-Daten |
+| `entry_delay_min` | departure delay at the **last stop before the study area**; NULL if the trip starts inside the area (known before every arrival in the area, tested in `tests/test_entry_delay.py`). **NULL for 60.3 % of regional and 18.9 % of long-distance arrivals** (57.9 % overall): most S-Bahn trips start inside canton ZH. Usable as a control **for long-distance traffic only** (ER, 2026-11-04; open point in #20) | metric | Ist-Daten |
 | `delay_gain_min` | arrival delay here − departure delay at the previous stop. **Alternative outcome, never a model feature** (it contains the arrival delay) | metric | Ist-Daten |
 
 ### Decisions (decided by ER on 2026-11-03, team to confirm)
@@ -192,6 +192,10 @@ the data.
 - **Snow is rare** (about 93 snow hours in 15 months, on few days). Snow
   results get wide confidence intervals, especially for long-distance traffic.
 - **Rain/snow split by temperature** is a simplification (sleet near 0 °C).
+- **Incoming delay only for long-distance traffic:** `entry_delay_min` is NULL
+  for 60.3 % of regional arrivals (trip starts inside canton ZH), so it cannot
+  control for delays brought in from outside in the regional model. Using it in
+  both models would compare a controlled with an uncontrolled effect.
 - **Class imbalance:** delayed arrivals are the minority, so accuracy alone is
   misleading.
 - **Study period:** a few winter months in one region do not generalize to
