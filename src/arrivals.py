@@ -29,7 +29,11 @@ TRAFFIC_TYPE = {
     "IC": "long_distance", "IR": "long_distance", "RE": "long_distance",
     "EC": "long_distance", "ICE": "long_distance", "TGV": "long_distance",
     "RJX": "long_distance", "NJ": "long_distance",
+    "RJ": "long_distance",  # Railjet, same product family as RJX (decided by ER on 2026-11-03)
 }
+# Not in the list, therefore excluded: SN = night S-Bahn (weekend nights 00-04 h; long-distance
+# trains do not run then, so night hours would exist only for one group and bias the
+# comparison; decided by ER on 2026-11-03), EXT = special trains, PE, ATZ, ...
 
 # Plausibility limits for the arrival delay in minutes. Values outside are
 # data errors (seen: -1444 min). PROPOSAL, to be confirmed at Checkpoint 2.
@@ -87,13 +91,28 @@ def prepare_arrivals(raw, stop_ids):
     df["prev_dep_delay_min"] = trip["dep_delay_min"].shift(1)
     df["prev_bpuic"] = trip["BPUIC"].shift(1)
 
-    # Delay at the first study-area stop of the trip (its departure delay there),
-    # given to all LATER study-area stops; at that first stop itself it is unknown (NaN)
+    # Entry delay = departure delay at the LAST stop BEFORE the study area (decided by
+    # ER on 2026-11-03). That train left this stop before it reaches any study-area
+    # stop, so the value is known before every arrival in the area, including the
+    # first one. Trips that start inside the area have no such stop -> NaN (NULL).
     in_area = df["BPUIC"].isin(stop_ids)
     df["area_stop_no"] = in_area.astype(int).groupby(df["FAHRT_BEZEICHNER"]).cumsum()
-    first = df[in_area & (df["area_stop_no"] == 1)].set_index("FAHRT_BEZEICHNER")["dep_delay_min"]
-    df["entry_delay_min"] = df["FAHRT_BEZEICHNER"].map(first)
-    df.loc[df["area_stop_no"] <= 1, "entry_delay_min"] = float("nan")
+    next_no = df.groupby("FAHRT_BEZEICHNER")["area_stop_no"].shift(-1)
+    before_area = (df["area_stop_no"] == 0) & (next_no == 1)  # outside, and the next stop is the first inside
+    entry = df.loc[before_area, ["FAHRT_BEZEICHNER", "dep_delay_min", "BPUIC", "sched_dep_utc"]].rename(
+        columns={"dep_delay_min": "entry_delay_min",
+                 "BPUIC": "entry_from_bpuic",              # kept for traceability (tests/test_entry_delay.py)
+                 "sched_dep_utc": "entry_from_time_utc"})
+    # Left merge: every row keeps its place; trips without a stop before the area get NaN
+    df = df.merge(entry, on="FAHRT_BEZEICHNER", how="left")
+    # Safety rules (found in the full build: 19 rows on 18 days):
+    # - a source departure scheduled AFTER this arrival cannot be known before it -> NULL
+    #   (equal minute is fine: stops one minute apart, times rounded to minutes)
+    # - departure delays outside the plausibility limits are data errors -> NULL
+    late_source = df["entry_from_time_utc"] > df["sched_arr_utc"]
+    df.loc[late_source, ["entry_delay_min", "entry_from_bpuic", "entry_from_time_utc"]] = pd.NA
+    for col in ["prev_dep_delay_min", "entry_delay_min"]:
+        df.loc[~df[col].between(DELAY_MIN_LIMIT, DELAY_MAX_LIMIT), col] = float("nan")
 
     # Delay gain since the previous stop. ATTENTION: contains this arrival's delay,
     # so it is an alternative OUTCOME, never a model feature (leakage).
@@ -113,6 +132,8 @@ def prepare_arrivals(raw, stop_ids):
     step("removed_not_real", df["AN_PROGNOSE_STATUS"] == "REAL")
     step("removed_other_category", df["VERKEHRSMITTEL_TEXT"].isin(TRAFFIC_TYPE))
     step("removed_implausible_delay", df["arr_delay_min"].between(DELAY_MIN_LIMIT, DELAY_MAX_LIMIT))
+    # The source contains a few exact duplicate rows (seen: 34 rows on 6 days) -> keep one
+    step("removed_duplicate", ~df.duplicated(["FAHRT_BEZEICHNER", "BPUIC", "ANKUNFTSZEIT"]))
     counts["arrivals"] = len(df)
 
     # 5. Derived columns
@@ -132,6 +153,8 @@ def prepare_arrivals(raw, stop_ids):
         "delayed": (df["arr_delay_min"] >= DELAY_THRESHOLD_MIN).astype(int),
         "prev_dep_delay_min": df["prev_dep_delay_min"].round(2),
         "entry_delay_min": df["entry_delay_min"].round(2),
+        "entry_from_bpuic": df["entry_from_bpuic"],
+        "entry_from_time_utc": utc_text(df["entry_from_time_utc"]),
         "delay_gain_min": df["delay_gain_min"].round(2),
         # Weather key: MeteoSwiss hourly value with this (end-of-interval) timestamp
         # covers the last full hour BEFORE the scheduled arrival

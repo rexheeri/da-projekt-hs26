@@ -8,13 +8,15 @@ ZHAW School of Management and Law · BSc Business Information Technology · Modu
 
 Does the probability of a train delay of 3 minutes or more increase more strongly in regional traffic than in long-distance traffic when it rains or snows?
 
-## Data sources (planned)
+## Data sources
 
-| Source | Access | Content |
+| Source | Access (by script) | Content |
 |---|---|---|
-| Ist-Daten (opentransportdata.swiss / opendata.swiss) | daily files via API, downloaded by script | actual vs. scheduled arrival/departure per stop |
-| MeteoSwiss Open Data (STAC API) | Web API | precipitation, snow, temperature per weather station |
-| Service point directory (Dienststellen) | download | stop coordinates for the spatial join |
+| Ist-Daten, opentransportdata.swiss | monthly ZIPs from the archive (`archive.opentransportdata.swiss/actual_data_archive.htm`), recent days via the portal's DCAT catalogue | scheduled vs. actual arrival/departure per stop and day |
+| MeteoSwiss Open Data, STAC API | `ch.meteoschweiz.ogd-smn`, `ogd-smn-precip` (hourly), `ogd-nime` (daily fresh snow, validation only) | precipitation, temperature, snow |
+| Service point directory (atlas), opentransportdata.swiss | `service-point-v2` | stop number (BPUIC), coordinates, canton |
+
+Study area: canton of Zurich (182 train stops). Study period: winter half-year (Nov–Mar) 2023/24, 2024/25, 2025/26.
 
 Raw data is **not** committed (too large). Every script under `src/` must be able to rebuild `data/` from scratch.
 
@@ -37,10 +39,16 @@ docs/
   claude/              how to use Claude in this project, prompts
 notebooks/      Jupyter notebooks, one owner per notebook
 tools/          create_issues.py: creates labels, milestones and issues on GitHub
-src/            reusable Python code
-  paths.py      project paths
-  db.py         database access, SQLite or PostgreSQL (query, write_table, list_tables)
-  check_setup.py
+src/            reusable Python code (every file starts with a docstring)
+  paths.py, db.py, check_setup.py   paths, database access (SQLite or PostgreSQL), setup check
+  download.py   shared downloader (resume, retries with backoff + jitter, ETag)
+  istdaten.py, weather.py, stops.py, calendar_zh.py   the sources
+  arrivals.py   one row per train arrival (times in UTC, delays, filters)
+  schema.sql, analysis_base.sql     tables and the SQL join
+  build_db.py   builds the whole database (resumable)
+  quality_report.py, snow_validation.py   checks
+  export_shared.py, load_shared.py  team export (Parquet) and loader
+tests/          python -m tests.test_dst / test_weather_complete / test_entry_delay
 .env.example    template for .env (database URL, credentials)
 docker-compose.yml   PostgreSQL (PostGIS) + pgAdmin
 CLAUDE.md       rules for Claude (grading criteria, guardrails, repo rules)
@@ -79,6 +87,27 @@ The code works with SQLite and PostgreSQL alike (`src/db.py`, SQLAlchemy). Targe
   python -m src.check_setup     # should report "Database works: postgresql"
   ```
   pgAdmin runs at http://localhost:5050.
+
+## Rebuild the data
+
+Option A, the fast way (team members): load the team export (Parquet, 78 MB, about 3 min to load)
+that ER shares in OneDrive/Teams, see `docs/onboarding.md` § 9:
+
+```bash
+python -m src.load_shared data/export/team
+```
+
+Option B, from scratch (downloads about 17 GB, runs about 2 hours, resumable):
+
+```bash
+python -m src.build_db --reset --days 2026-01-08      # test with one day first (~1.4 GB download)
+python -m src.build_db --study-period > data/processed/build_run.log 2>&1
+python -m src.quality_report                          # completeness and losses
+python -m tests.test_dst && python -m tests.test_weather_complete && python -m tests.test_entry_delay
+python -m src.export_shared                           # team export -> data/export/team/
+```
+
+A broken run can simply be started again: finished days are skipped.
 
 ## Working with Claude
 
