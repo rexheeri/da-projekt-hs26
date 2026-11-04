@@ -90,7 +90,7 @@ The code works with SQLite and PostgreSQL alike (`src/db.py`, SQLAlchemy). Targe
 
 ## Rebuild the data
 
-Option A, the fast way (team members): load the team export (Parquet, about 100 MB+)
+Option A, the fast way (team members): load the team export (Parquet, 78 MB, about 3 min to load)
 that ER shares in OneDrive/Teams, see `docs/onboarding.md` § 9:
 
 ```bash

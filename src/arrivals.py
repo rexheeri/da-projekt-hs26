@@ -105,6 +105,14 @@ def prepare_arrivals(raw, stop_ids):
                  "sched_dep_utc": "entry_from_time_utc"})
     # Left merge: every row keeps its place; trips without a stop before the area get NaN
     df = df.merge(entry, on="FAHRT_BEZEICHNER", how="left")
+    # Safety rules (found in the full build: 19 rows on 18 days):
+    # - a source departure scheduled AFTER this arrival cannot be known before it -> NULL
+    #   (equal minute is fine: stops one minute apart, times rounded to minutes)
+    # - departure delays outside the plausibility limits are data errors -> NULL
+    late_source = df["entry_from_time_utc"] > df["sched_arr_utc"]
+    df.loc[late_source, ["entry_delay_min", "entry_from_bpuic", "entry_from_time_utc"]] = pd.NA
+    for col in ["prev_dep_delay_min", "entry_delay_min"]:
+        df.loc[~df[col].between(DELAY_MIN_LIMIT, DELAY_MAX_LIMIT), col] = float("nan")
 
     # Delay gain since the previous stop. ATTENTION: contains this arrival's delay,
     # so it is an alternative OUTCOME, never a model feature (leakage).

@@ -54,7 +54,7 @@ def main():
     day_rows = log[log.step.isin(days)]
     metrics = ["raw_rows", "raw_trip_rows", "removed_outside_area", "area_rows", "removed_no_scheduled_arrival",
                "removed_pass_through", "removed_cancelled", "removed_not_real", "removed_other_category",
-               "removed_implausible_delay", "times_not_convertible", "arrivals"]
+               "removed_implausible_delay", "removed_duplicate", "times_not_convertible", "arrivals"]
     totals = day_rows[day_rows.metric.isin(metrics)].groupby("metric")["value"].sum().reindex(metrics)
     totals = totals.astype("Int64").reset_index().rename(columns={"value": "rows (all days)"})
     add("Filter steps summed over all days", totals)

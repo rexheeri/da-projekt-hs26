@@ -1,6 +1,7 @@
 # --- Data (rebuilt by scripts, never committed) ---
 data/raw/*
 data/processed/*
+data/export/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 *.sqlite

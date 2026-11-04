@@ -61,7 +61,8 @@ You do **not** need to download the raw data. ER shares the team export.
 
 1. **Where:** OneDrive/Teams, in the folder ER announces in the team chat
    (suggested name `DA_team_export`; size and date are in `manifest.csv`).
-   It is never on GitHub.
+   It is never on GitHub. Size: 78 MB; loading takes about 3 minutes and
+   creates a database of about 2.4 GB (10.1 million arrivals).
 2. **Load it:** copy the folder to `data/export/team/` in your repo, then
    `python -m src.load_shared data/export/team`. It replaces the tables in your
    database (SQLite by default, PostgreSQL if `DATABASE_URL` is set).

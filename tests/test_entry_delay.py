@@ -66,16 +66,22 @@ def check_database():
     bad_same = query("""
         SELECT COUNT(*) AS n FROM arrivals
         WHERE entry_delay_min IS NOT NULL AND entry_from_bpuic = bpuic""")["n"][0]
-    # Times are 'YYYY-MM-DD HH:MM:SS' text in UTC, so text comparison = time comparison
+    # Times are 'YYYY-MM-DD HH:MM:SS' text in UTC, so text comparison = time comparison.
+    # Equal minute is allowed: scheduled times are rounded to minutes, and two stops can
+    # be one minute apart; the departure there still happens before the arrival here.
     bad_time = query("""
         SELECT COUNT(*) AS n FROM arrivals
-        WHERE entry_delay_min IS NOT NULL AND NOT (entry_from_time_utc < sched_arr_utc)""")["n"][0]
+        WHERE entry_delay_min IS NOT NULL AND NOT (entry_from_time_utc <= sched_arr_utc)""")["n"][0]
+    same_minute = query("""
+        SELECT COUNT(*) AS n FROM arrivals
+        WHERE entry_delay_min IS NOT NULL AND entry_from_time_utc = sched_arr_utc""")["n"][0]
+    print(f"info: {same_minute} rows where the source departure and this arrival have the same scheduled minute")
     total = query("SELECT COUNT(*) AS n, SUM(CASE WHEN entry_delay_min IS NOT NULL THEN 1 ELSE 0 END) AS with_value FROM arrivals")
     assert bad_inside == 0, f"{bad_inside} rows take entry_delay from a stop inside the area"
     assert bad_same == 0, f"{bad_same} rows take entry_delay from their own stop"
     assert bad_time == 0, f"{bad_time} rows take entry_delay from a departure not before the arrival"
     print(f"OK database: {int(total.with_value[0]):,} of {int(total.n[0]):,} rows with a value; all from a stop "
-          "outside the area, never the own stop, always departed before the scheduled arrival")
+          "outside the area, never the own stop, departed before or in the same scheduled minute as the arrival")
 
     nulls = query("""
         SELECT traffic_type, COUNT(*) AS arrivals,
