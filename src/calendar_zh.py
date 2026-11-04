@@ -46,8 +46,12 @@ def public_holidays(years):
     return set(days)
 
 
-def build_calendar(start="2023-11-01", end="2026-03-31"):
-    """One row per local date: weekday, public_holiday, school_holiday, holiday (either)."""
+def build_calendar(start="2023-11-01", end="2026-04-01"):
+    """One row per local date: weekday, public_holiday, school_holiday, holiday (either).
+
+    Ends on 01.04.2026, not 31.03.: trains of the last operating day (31.03.) that
+    arrive after midnight have the local date 01.04.
+    """
     dates = pd.date_range(start, end, freq="D")
     ph = public_holidays(range(dates.min().year, dates.max().year + 1))
     school = set()

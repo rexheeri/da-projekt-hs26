@@ -124,6 +124,8 @@ def prepare_arrivals(raw, stop_ids):
     step("removed_not_real", df["AN_PROGNOSE_STATUS"] == "REAL")
     step("removed_other_category", df["VERKEHRSMITTEL_TEXT"].isin(TRAFFIC_TYPE))
     step("removed_implausible_delay", df["arr_delay_min"].between(DELAY_MIN_LIMIT, DELAY_MAX_LIMIT))
+    # The source contains a few exact duplicate rows (seen: 34 rows on 6 days) -> keep one
+    step("removed_duplicate", ~df.duplicated(["FAHRT_BEZEICHNER", "BPUIC", "ANKUNFTSZEIT"]))
     counts["arrivals"] = len(df)
 
     # 5. Derived columns
