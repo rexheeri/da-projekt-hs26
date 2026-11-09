@@ -6,6 +6,11 @@ to Moodle afterwards. Criteria: [grading.md](grading.md#1-concept-presentation-2
 - Checklist and grading grid: [concept-presentation-checklist.md](concept-presentation-checklist.md)
 - Slide skeleton (concept per slide in the speaker notes): [presentation/concept_presentation_group_03.pptx](../presentation/concept_presentation_group_03.pptx)
 
+**Editing the slides:** presentation/*.pptx is a binary file and cannot be
+merged. Only one person edits it at a time: announce it in issue #13, git pull
+before, commit and push right after, then release it in the issue. Export a
+PDF next to it at each milestone.
+
 ## What we present
 
 The **plan**, not results. But the plan must be backed by real data, otherwise

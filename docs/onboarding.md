@@ -55,19 +55,31 @@ python -m src.check_setup       # must end with "Setup OK."
 ## 8. Pick your first issue
 - [ ] Assign yourself to the issues of your role in milestone **M1**
 
-## 9. Data handover (from ER, Phase 3)
+## 9. Get the data in 2 steps
 
-You do **not** need to download the raw data. ER shares the team export.
+You do **not** need the 17 GB of raw data. The prepared tables are attached to
+the GitHub release **`data-v1`** of this repo (Parquet, about 78 MB; period,
+row counts, pipeline commit and the mandatory source citations are in the
+release notes and in [data-releases.md](data-releases.md)). The files are
+never committed to the repo itself.
 
-1. **Where:** OneDrive/Teams, in the folder ER announces in the team chat
-   (suggested name `DA_team_export`; size and date are in `manifest.csv`).
-   It is never on GitHub. Size: 78 MB; loading takes about 3 minutes and
-   creates a database of about 2.4 GB (10.1 million arrivals).
-2. **Load it:** copy the folder to `data/export/team/` in your repo, then
-   `python -m src.load_shared data/export/team`. It replaces the tables in your
-   database (SQLite by default, PostgreSQL if `DATABASE_URL` is set).
-3. **Use it:** `from src.db import query` and
-   `df = query("SELECT * FROM analysis_base WHERE winter = :w", {"w": "2025/26"})`.
+1. **Download** (from the repo root):
+   `gh release download data-v1 --repo rexheeri/da-projekt-hs26 --dir data/export/data-v1`
+   (without `gh`: download the files from the release page into that folder).
+2. **Load** into your database:
+   `python -m src.load_shared data/export/data-v1`
+   It replaces the tables (SQLite by default, PostgreSQL if `DATABASE_URL` is
+   set) and checks every row count against `manifest.csv`. Takes about
+   3 minutes; the SQLite file gets about 2.4 GB (10.1 million arrivals).
+
+Shortcut for both steps: `python -m src.load_shared --release data-v1`.
+
+**Use it:** `from src.db import query` and
+`df = query("SELECT * FROM analysis_base WHERE winter = :w", {"w": "2025/26"})`.
+
+A newer export gets a new tag (`data-v2`, …); old releases stay, so results
+remain reproducible. Alternative: rebuild everything from the sources with the
+pipeline (`README.md`, "Rebuild the data", option B; about 2 hours and 17 GB).
 
 What is in `analysis_base` (one row = one train arrival at a stop in canton ZH):
 

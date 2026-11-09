@@ -90,14 +90,24 @@ The code works with SQLite and PostgreSQL alike (`src/db.py`, SQLAlchemy). Targe
 
 ## Rebuild the data
 
-Option A, the fast way (team members): load the team export (Parquet, 78 MB, about 3 min to load)
-that ER shares in OneDrive/Teams, see `docs/onboarding.md` § 9:
+### Get the data in 2 steps (option A, recommended)
+
+The prepared tables are attached to the GitHub release `data-v1` (Parquet, about
+78 MB, about 3 min to load). Release notes and [docs/data-releases.md](docs/data-releases.md)
+list period, row counts, pipeline commit and the mandatory source citations.
 
 ```bash
-python -m src.load_shared data/export/team
+gh release download data-v1 --repo rexheeri/da-projekt-hs26 --dir data/export/data-v1   # 1. download
+python -m src.load_shared data/export/data-v1                                            # 2. load and check row counts
+# or both in one step, without gh:  python -m src.load_shared --release data-v1
 ```
 
-Option B, from scratch (downloads about 17 GB, runs about 2 hours, resumable):
+What `analysis_base` contains (one row = one train arrival at a stop in canton ZH,
+column by column): see [docs/onboarding.md § 9](docs/onboarding.md#9-get-the-data-in-2-steps).
+
+### Rebuild from the sources (option B)
+
+From scratch (downloads about 17 GB, runs about 2 hours, resumable):
 
 ```bash
 python -m src.build_db --reset --days 2026-01-08      # test with one day first (~1.4 GB download)

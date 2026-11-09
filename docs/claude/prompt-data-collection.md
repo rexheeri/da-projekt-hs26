@@ -64,7 +64,7 @@ Was wir dem Dozenten zugesagt haben (Mail an Gellrich, Antwort 28.10.2026):
 - **Stand sichern:** An jedem CHECKPOINT `docs/project-state.md` nachführen
   (Datentabelle, Entscheide, Change log), committen und pushen. So kann eine
   neue Sitzung nach einem Unterbruch nahtlos weitermachen.
-- **Zeitrahmen:** Erion ist ab Sa 07.11. eine Woche weg. **Phase 1 und 2
+- **Zeitrahmen:** ER is not available from 07.11. to 15.11. **Phase 1 und 2
   müssen bis Fr 06.11. abgeschlossen und gepusht sein**, damit Lorenzo und
   Levin vor der Konzeptpräsentation am 17.11. damit weiterarbeiten können.
 - Terminal ist Windows (PowerShell). Lange Läufe mit Fortschrittsanzeige und
