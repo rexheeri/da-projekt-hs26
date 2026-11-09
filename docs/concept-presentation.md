@@ -36,6 +36,58 @@ criterion 4 ("structure of the data explained") can't be fulfilled.
 
 Plan for 9:30–9:50. On the day it always takes longer.
 
+## Draft: slides 7 and 8 "Data" (LK, role B, 2026-11-09)
+
+Draft text only, not yet in the .pptx (editing rule above). Numbers from release
+`data-v1` and `notebooks/02_eda_lk.ipynb`. Keywords on the slide, the sentences
+are for speaking freely. Target ~2:00 for both slides.
+
+### Slide 7: Three sources, one analysis table (0:45)
+
+| Source | Content | Access | Period / volume | Citation on the slide |
+|---|---|---|---|---|
+| Ist-Daten (SBB, opentransportdata.swiss) | scheduled vs. actual arrival per train and stop | script, portal + archive (API), monthly ZIPs | Nov–Mar 2023/24–2025/26, 17 GB raw, ~1.0 billion rows | opentransportdata.swiss |
+| MeteoSwiss Open Data (STAC API) | hourly precipitation and temperature | script, STAC API (`ogd-smn`, `ogd-smn-precip`) | 26 stations, 548,955 station-hours | Source: MeteoSwiss |
+| Service point directory (opentransportdata.swiss) | stop coordinates | script download (`service-point-v2`) | 182 train stops in canton ZH | opentransportdata.swiss |
+
+Message (slide title): **"We collect the data ourselves by script: 10.1 million arrivals plus hourly weather."**
+Say: ZH only, winter half-year, three winters; everything downloaded by script, nothing from a ready-made dataset.
+
+### Slide 8: Data structure (1:15)
+
+Unit of observation: **one train arrival at one stop** (table `analysis_base`, 10,104,173 rows, 32 columns).
+
+| Column (examples) | Type | Meaning |
+|---|---|---|
+| `service_date`, `sched_arr_utc` | text (date / UTC timestamp) | operating day, scheduled arrival |
+| `traffic_type` | category | regional (S) vs. long-distance (IC, IR, RE, EC, ICE, TGV, RJX, RJ, NJ) |
+| `arr_delay_min` | float | actual minus scheduled arrival, in minutes |
+| `delayed` | binary 0/1 | **target:** delay >= 3 min (SBB definition) |
+| `precip_mm`, `temp_c` | float | weather in the last full hour **before** the scheduled arrival |
+| `precip_cat`, `precip_any` | category / binary | dry / rain / snow; precipitation yes/no |
+| `hour`, `weekday`, `rush_hour`, `holiday`, `winter`, `month` | int / binary | controls (confounders) |
+
+**How the sources connect (diagram, left to right):**
+`stop (BPUIC, coordinates)` → nearest weather station (`stop_station`, median 3.6 km) → `weather_hourly` (station + hour).
+Join key: stop → station by distance, arrival → weather by **station + full hour before the scheduled arrival** (no leakage).
+Done in SQL (`analysis_base` is built by a `JOIN`), no row lost in the join.
+
+Numbers worth one sentence: regional 9.51 M arrivals (94.2 %), long-distance 0.59 M; 8.0 % of long-distance and 4.8 % of regional
+arrivals are delayed, so **delays are the minority class** (accuracy alone would mislead).
+
+**Known gap (say it, don't hide it):** 450 of 454 days; 28.–31.01.2025 could not be read (Deflate64 ZIP), follows in `data-v2`.
+
+Possible questions: why only canton ZH? (size, one weather region, 182 stops) · why the hour *before* the scheduled arrival?
+(the actual time would let the delay choose the weather) · what if a station is far away? (median 3.6 km, max 10.3 km, named as limitation).
+
+### Slide 10 candidate: first look (0:45, with C)
+
+Chart `notebooks/02_eda_lk.ipynb`, section 3 (bar chart delay rate by `precip_cat` and traffic type), labelled
+"preliminary, n = 10,104,173, no controls". Finding: delay rate rises with precipitation in both groups
+(regional 4.1 % → 9.2 %, long-distance 7.1 % → 13.4 %). The absolute effect is larger for long-distance (+6.3 pp vs. +5.1 pp),
+the relative one for regional (ratio 2.24 vs. 1.88). Do **not** claim "regional is more sensitive": it is open (H2) and
+depends on the effect measure, which was fixed before the data was seen (absolute = primary).
+
 ## Scientific standards for slides (criterion 8)
 
 - Every chart: title stating the finding, labelled axes with units, source and
