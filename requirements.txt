@@ -14,7 +14,9 @@ jupyter>=1.0
 ipykernel>=6.29
 
 # Visualisation
-matplotlib>=3.8
+# <3.11: matplotlib 3.11.x crashes on import on some newer macOS versions
+# (KeyError '_items' when reading system fonts via system_profiler)
+matplotlib>=3.8,<3.11
 seaborn>=0.13
 
 # Statistics and machine learning
