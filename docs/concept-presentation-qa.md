@@ -209,4 +209,6 @@ Short answers. "→" points to where the proof is.
 2. Add a logistic regression with controls? It gives an adjusted effect (#20/#21).
 3. How to form the daily precipitation for H3 (#20).
 4. Robustness checks: only the 35 stops served by both traffic types; without `RE`; cancellations as delayed; effect per hour group.
-5. The checklist says we also measure the delay increase *within* the area; the current plan only has `entry_delay_min` (long-distance) and `delay_gain_min`. Check that the wording matches what we will do.
+5. ~~The checklist promised to measure the delay increase *within* the area.~~ Done 10.11.: the checklist answer now matches the plan (`entry_delay_min` for long-distance only, `delay_gain_min` as an alternative outcome). Slide 9 already said this.
+
+Point 4 now appears on slide 11 as a one-line "Planned checks" under Limitations. Points 1 to 3 are still open.
