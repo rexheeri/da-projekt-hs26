@@ -3,7 +3,7 @@
 Shared team memory. Keep it short and current. Claude reads this file in every
 session. Anything not written here is unknown in the next session.
 
-**Last updated:** 2026-11-04 (ER)
+**Last updated:** 2026-11-09 (ER)
 
 ## Group 3
 
@@ -41,7 +41,7 @@ Cross-cutting, each person takes a share: GitHub, AI log, slides, video.
 
 | Source | Access | Status |
 |---|---|---|
-| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | **done** for 450 of 454 days: 10,104,173 arrivals in `analysis_base` (SQLite, 5.0 GB); 28.–31.01.2025 missing (Deflate64, open). Team export → GitHub release `data-v1` (draft, `docs/data-releases.md`) |
+| Ist-Daten (daily files) | **by script**: portal (DCAT catalogue, last ~30 days) + archive (monthly ZIPs since 2016) | **done** for 450 of 454 days: 10,104,173 arrivals in `analysis_base` (SQLite, 5.0 GB); 28.–31.01.2025 missing (Deflate64, open). Team export **published** as GitHub release `data-v1` on 2026-11-09 (450 days; the 4 missing days follow in `data-v2`; `docs/data-releases.md`) |
 | MeteoSwiss Open Data – STAC API | Web API (`ogd-smn` + `ogd-smn-precip`) | 26 stations used, hourly, complete for all 15 study months (`tests/test_weather_complete.py`) |
 | Service point directory (stop coordinates) | download by script (`service-point-v2`) | 182 ZH train stops; table `stop_station` (precipitation median 3.6 km, temperature 7.4 km) |
 
@@ -116,6 +116,8 @@ Full Moodle text captured 2026-10-28 → `docs/grading.md`.
 | 2026-11-04 | Team data shared as GitHub release (`data-v1`, `data-v2`, … old ones stay), never committed; GitHub is the only thing LS/LK need | one place for code, docs, slides and data; terms of both sources allow publishing derived data with citation (`docs/data-releases.md`) |
 | 2026-11-04 | Slides (`presentation/*.pptx`): one editor at a time, announced in #13, PDF export at each milestone | binary file, cannot be merged |
 | 2026-11-04 | Phase 4 (PostgreSQL, submission export) starts on 18.11. at the earliest | concept presentation first |
+| 2026-11-09 | `data-v1` published with 450 of 454 days (28.–31.01.2025 → `data-v2`); licence CC BY 4.0; tag on `main` `5167de1`, pipeline commit `c79b133` in the notes | LS/LK need the data now; 4 of 454 days do not change the EDA; the gap is stated in the release notes |
+| 2026-11-09 | opentransportdata § 5.2 ("regular updates") left unresolved, risk knowingly accepted | release is a labelled fixed snapshot of historical archive data; taken down if the provider objects |
 
 ## Findings (preliminary)
 
@@ -139,3 +141,4 @@ for the stats role (#20).
 - 2026-11-03 ER: Checkpoint 1 decisions recorded (#5, #9 closed). Phase 2 prototype end-to-end: schema, week 05.–11.01.2026 in SQLite, SQL join `analysis_base`, DST and weather tests, first EDA (preliminary). PRs #35–#38 open. Waiting at Checkpoint 2 (open: school holidays, `SN`/`RJ`, plausibility limits, rush hour definition, OK for the full download).
 - 2026-11-04 ER: Checkpoint 2 decisions recorded (SN excluded, RJ long-distance, holidays, rush hour, plausibility, entry_delay before the area). Phase 3 full build done in 62 min: 450/454 days, 10.1 million arrivals, quality report, tests pass, snow definition validated (hit rate 75 %), team export 78 MB (Parquet, OneDrive/Teams, not on GitHub). Waiting at Checkpoint 3 (open: Deflate64 package for 4 days).
 - 2026-11-04 ER: Checkpoint 3 decisions recorded. PRs #40–#42 merged. Effect measure confirmed (absolute primary), finding in "Findings (preliminary)". `entry_delay_min` only for long-distance traffic (#20). Data shared via GitHub release (terms of both sources checked, `docs/data-releases.md`), `load_shared --release`, onboarding "Get the data in 2 steps", slide editing rule (#13). Deflate64: `zipfile-deflate64` cannot be installed on Python 3.13/Windows; `inflate64` tested, waiting for ER. Phase 4 from 18.11.
+- 2026-11-09 ER: **Correction:** the entry above and the data table said `data-v1` was a "draft". It did not exist at all (no release, no tag), so `load_shared --release` gave 404. Created and **published** `data-v1` (tag on `main` `5167de1`, 7 assets, size + SHA-256 checked, notes in `docs/data-releases.md`, CC BY 4.0). Tested without login: all 7 URLs 200; `load_shared --release data-v1` in a fresh clone loads all tables with the manifest counts. Open: 28.–31.01.2025 (Deflate64) → `data-v2`; `test_weather_complete` and `test_entry_delay` only run after a full rebuild (not with the release); `python -m pytest` finds 0 tests (#45); manifest without checksums (#46). Upload of the 79 MB file failed on the home connection (connection reset), worked on another network.
