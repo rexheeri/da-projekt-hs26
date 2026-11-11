@@ -133,6 +133,22 @@ Significance level **α = 0.05** for all tests, fixed in advance.
   point in different directions if the baseline delay rates differ.
   Decided (ER, 2026-11-03): absolute (percentage points) is primary, because
   it is more intuitive for passengers; the risk ratio is the robustness check.
+- **Robustness check, stratified by time of week** (decided ER, 2026-11-11,
+  #3 point 2): the pooled RD can be biased if precipitation hours have a
+  different hour/weekday profile than dry hours (delays peak at 07–09 h and
+  17–19 h also when dry, `02_eda_lk.ipynb` section 4).
+  - Strata: `rush_hour` × day type (Mon–Fri vs. Sat/Sun, from `weekday`).
+    `rush_hour` is defined for Mon–Fri only, so there are **3 non-empty
+    strata**: workday rush hour, workday off-peak, weekend.
+  - Per traffic type: RD within each stratum, then a weighted average with
+    weight = share of that traffic type's arrivals in the stratum;
+    Var = Σ w² · Var_stratum. Counts per stratum in SQL (`GROUP BY
+    traffic_type, rush_hour, day type, precip_any`), weighting in pandas.
+  - Same one-sided z-test as above on the stratified RDs.
+  - Reading: if the stratified and the pooled comparison point the same way,
+    the time of week does not drive the result; if they differ, report both
+    and name time of week as a confounder. The pooled test stays primary
+    (fixed before the data was seen).
 
 ### H3: More precipitation, more delays (dose-response)
 - Aggregated per day and traffic type: daily precipitation sum vs. daily delay rate.
