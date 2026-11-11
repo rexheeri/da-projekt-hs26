@@ -88,6 +88,104 @@ Chart `notebooks/02_eda_lk.ipynb`, section 3 (bar chart delay rate by `precip_ca
 the relative one for regional (ratio 2.24 vs. 1.88). Do **not** claim "regional is more sensitive": it is open (H2) and
 depends on the effect measure, which was fixed before the data was seen (absolute = primary).
 
+## Draft: timetable data and database (ER, role A, 2026-11-11)
+
+Draft text only, **not** in the .pptx (editing rule above). It covers the same ground as
+slides 7–8 above, from the pipeline side. **Open for the team:** slide 2 of the deck
+currently gives ER slides 9–12 and LK slides 5–8. If ER presents the data part, the
+speaker split on slide 2 and in the table above has to change (decide at the dry run 16.11.).
+All numbers: `docs/integration-log.md` (F4, J4), `analysis_base` on 2026-11-11.
+
+Target **3:00**. If the team keeps the data part at 2:00 (slide plan), drop the
+blocks marked *(cut)*.
+
+### Block 1: Source (0:25), slide 7
+
+- **Ist-Daten**, opentransportdata.swiss: one file per operating day, every public
+  transport stop event in Switzerland, scheduled vs. actual time.
+- 22 columns, `;`-separated. The ones we need: `BPUIC` (stop), `VERKEHRSMITTEL_TEXT`
+  (S, IC, IR …), `ANKUNFTSZEIT` (scheduled), `AN_PROGNOSE` (actual), `AN_PROGNOSE_STATUS`,
+  `FAELLT_AUS_TF` (cancelled).
+
+Speaking notes:
+- one file per day · whole of Switzerland · scheduled vs. actual
+- we only need 6 of 22 columns
+
+### Block 2: Collection by script (0:30), slide 7 *(cut to one sentence)*
+
+- `src/istdaten.py`: recent days through the portal (DCAT catalogue), older months
+  through the archive (monthly ZIPs). Downloaded by script, no manual files.
+- 15 monthly ZIPs, 17 GB, **1,005,650,252 raw rows** for Nov–Mar 2023/24–2025/26.
+- Read day by day, only trips that touch the canton of Zurich are kept.
+
+Speaking notes:
+- portal = last ~30 days · archive = monthly ZIPs since 2016
+- 15 ZIPs · 17 GB · 1 billion rows · read day by day, never all in memory
+- lecturer confirmed: scripted download = own data collection
+
+### Block 3: Cleaning (0:40), slide 8 or backup slide *(cut to the first and last number)*
+
+From 11,599,296 rows at ZH stops to **10,104,173 arrivals** (−12.9 %):
+
+| Step | Rows removed | Why |
+|---|---|---|
+| no scheduled arrival | 787,481 | first stop of a trip, there is no arrival |
+| status not REAL | 436,254 | only measured times, no forecasts |
+| cancelled | 142,530 | excluded, count reported, robustness check planned |
+| other categories | 123,348 | mainly night S-Bahn `SN`, EXT |
+| pass-through, delay outside −15 … +300 min, duplicates | 5,510 | train does not stop, data errors |
+
+Speaking notes:
+- 11.6 M → 10.1 M · each step logged with rows before/after (integration log)
+- biggest loss: first stop has no arrival · second: not measured
+- cancellations out, but counted · robustness check later
+
+### Block 4: Database and join (0:40), slide 8
+
+- SQLite now, PostgreSQL from 18.11., same code through `src/db.py` (SQLAlchemy).
+- Tables: `arrivals` (10.1 M, 22 columns), `stops` (182), `stop_station` (182),
+  `weather_hourly` (548,955), `weather_stations` (26), `calendar_days` (883).
+- `analysis_base` (32 columns) is built **in SQL** (`src/analysis_base.sql`): arrival →
+  stop (`bpuic`) → nearest station → weather of the **last full hour before the scheduled
+  arrival** → calendar day.
+- Join result: **0 rows lost**, 0 without precipitation, 26 without temperature (sensor gaps).
+
+Speaking notes:
+- one row = one train arrival at one stop
+- join in SQL, not pandas · 0 rows lost
+- scheduled hour, not actual: otherwise the delay picks the weather (leakage)
+- UTC inside, local time only for hour and rush hour
+
+### Block 5: Key figures (0:20), slide 8
+
+- 10,104,173 arrivals: regional 9,513,938 (94.2 %), long-distance 590,235 (5.8 %).
+- Delayed (≥ 3 min): regional 4.8 %, long-distance 8.0 % → delays are the minority class.
+
+Speaking notes:
+- 94 % regional · long-distance small but 590,000 is still a lot
+- 5 % and 8 % delayed → accuracy alone would mislead
+
+### Block 6: Gap and limitations (0:25), slide 8
+
+- **Gap:** 450 of 454 days. 28.–31.01.2025 are packed with Deflate64, which Python's
+  `zipfile` cannot read. A fix is tested (`inflate64`), the 4 days follow in `data-v2`.
+- **Imported delay:** `entry_delay_min` (delay when the train enters canton ZH) is NULL
+  for 60.3 % of regional arrivals, because most S-Bahn trips start inside ZH. So it can
+  only be a control for long-distance traffic.
+- **Little snow:** 84,564 arrivals in snow hours, only 4,729 of them long-distance.
+  Snow is a sub-analysis with wide confidence intervals; the main comparison is
+  precipitation (rain + snow) vs. dry.
+
+Speaking notes:
+- 4 days missing · reason known · fix tested · say it, don't hide it
+- entry delay: works for long-distance only, named as limitation
+- snow: rare · sub-analysis only · main comparison = precipitation vs. dry
+
+Likely questions: why the scheduled and not the actual hour? (leakage) · why REAL only?
+(forecasts are not measurements) · why not keep cancellations? (no arrival time; SBB
+counts them as late, so a robustness check counts them as delayed) · how do you know the
+join is right? (5 rows checked by hand against raw files, tests for time zones and entry delay).
+
 ## Scientific standards for slides (criterion 8)
 
 - Every chart: title stating the finding, labelled axes with units, source and
