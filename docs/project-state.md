@@ -3,7 +3,7 @@
 Shared team memory. Keep it short and current. Claude reads this file in every
 session. Anything not written here is unknown in the next session.
 
-**Last updated:** 2026-11-09 (ER)
+**Last updated:** 2026-11-11 (ER)
 
 ## Group 3
 
@@ -126,7 +126,7 @@ for the stats role (#20).
 
 | Date | Finding | Note |
 |---|---|---|
-| 2026-11-04 | Delay rate precipitation vs. dry (full period, 10.1 M arrivals): regional 4.1 % → 8.5 % (**+5.1 pp**, ratio **2.24**); long-distance 7.1 % → 12.6 % (**+6.3 pp**, ratio **1.88**) | The **absolute** difference is larger in long-distance traffic, the **relative** one in regional traffic. The effect measure (absolute primary) was fixed on 03.11., **before** the data was seen; the risk ratio is reported as robustness check. |
+| 2026-11-04, rates corrected 2026-11-11 | Delay rate precipitation (rain + snow, `precip_any`) vs. dry (full period, 10.1 M arrivals): regional 4.1 % → 9.2 % (**+5.1 pp**, ratio **2.24**, n = 1,366,699 vs. 8,147,239); long-distance 7.1 % → 13.4 % (**+6.3 pp**, ratio **1.88**, n = 84,893 vs. 505,342). Rain only: 8.5 % / 12.6 %; snow only: 19.8 % / 28.2 % (n = 79,835 / 4,729) | The **absolute** difference is larger in long-distance traffic, the **relative** one in regional traffic. The effect measure (absolute primary) was fixed on 03.11., **before** the data was seen; the risk ratio is reported as robustness check. Until 11.11. this row showed the rain-only rates next to the rain + snow differences (found by LK in #3, re-checked by SQL). | The **absolute** difference is larger in long-distance traffic, the **relative** one in regional traffic. The effect measure (absolute primary) was fixed on 03.11., **before** the data was seen; the risk ratio is reported as robustness check. |
 
 ## Change log
 
@@ -142,3 +142,4 @@ for the stats role (#20).
 - 2026-11-04 ER: Checkpoint 2 decisions recorded (SN excluded, RJ long-distance, holidays, rush hour, plausibility, entry_delay before the area). Phase 3 full build done in 62 min: 450/454 days, 10.1 million arrivals, quality report, tests pass, snow definition validated (hit rate 75 %), team export 78 MB (Parquet, OneDrive/Teams, not on GitHub). Waiting at Checkpoint 3 (open: Deflate64 package for 4 days).
 - 2026-11-04 ER: Checkpoint 3 decisions recorded. PRs #40–#42 merged. Effect measure confirmed (absolute primary), finding in "Findings (preliminary)". `entry_delay_min` only for long-distance traffic (#20). Data shared via GitHub release (terms of both sources checked, `docs/data-releases.md`), `load_shared --release`, onboarding "Get the data in 2 steps", slide editing rule (#13). Deflate64: `zipfile-deflate64` cannot be installed on Python 3.13/Windows; `inflate64` tested, waiting for ER. Phase 4 from 18.11.
 - 2026-11-09 ER: **Correction:** the entry above and the data table said `data-v1` was a "draft". It did not exist at all (no release, no tag), so `load_shared --release` gave 404. Created and **published** `data-v1` (tag on `main` `5167de1`, 7 assets, size + SHA-256 checked, notes in `docs/data-releases.md`, CC BY 4.0). Tested without login: all 7 URLs 200; `load_shared --release data-v1` in a fresh clone loads all tables with the manifest counts. Open: 28.–31.01.2025 (Deflate64) → `data-v2`; `test_weather_complete` and `test_entry_delay` only run after a full rebuild (not with the release); `python -m pytest` finds 0 tests (#45); manifest without checksums (#46). Upload of the 79 MB file failed on the home connection (connection reset), worked on another network.
+- 2026-11-11 ER: status run (ER away until 15.11.). PRs #47 and #48 had been merged by LK on 10.11. without review, followed by two direct pushes to `main` (deck renamed to `DA_conceptual_presentation_group03.pptx`); post-merge review of #48 posted (one non-portable `ROUND` for PostgreSQL, slide 11 shapes duplicated, slide 2 says "sample", stale pptx links, no PDF yet). Findings row corrected (rain + snow rates 9.2 % / 13.4 %, LK's point 3 in #3). `.gitignore` covers `data/export/` (incl. `csv/`); no large or data file in any branch. Draft of the data part (role A) in `docs/concept-presentation.md`; open: speaker split on slide 2 gives ER slides 9–12, not the data slides. Answers to LK's 7 points in #3 drafted, not posted.
